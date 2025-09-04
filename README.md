@@ -1,12 +1,17 @@
 # Library-Database
 
-# Project Title:
+**Project Title**: 
 
-# Description:
+**Description**: 
 
-# Contributors:
-Kensey McDowell 
-Riley Wells
-Nabeel Islam 
-Erik Apruda
-Jose Suchite
+**Features**:
+   
+**File Structure**: 
+
+**Credits**:
+ - **Contributors**:
+     - Kensey McDowell
+     - Riley Wells
+     - Nabeel Islam
+     - Erik Apruda
+     - Jose Suchite
