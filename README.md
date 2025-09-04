@@ -5,8 +5,8 @@
 # Description:
 
 # Contributors:
-# Kensey McDowell
-# Riley Wells
-# Nabeel Islam 
-# Erik Apruda
-# Jose Suchite
+Kensey McDowell 
+Riley Wells
+Nabeel Islam 
+Erik Apruda
+Jose Suchite
