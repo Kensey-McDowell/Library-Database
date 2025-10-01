@@ -3,7 +3,6 @@ CREATE TABLE LIBRARY_BRANCH
 	Name VARCHAR(15)				NOT NULL,
 	Address VARCHAR(45)				NOT NULL,
 	City VARCHAR(15)				NOT NULL,
-	SEX CHAR(1)						NOT NULL,
 	Phone_Number INT,
 	Email_Address VARCHAR(20),
 	Num_Member INT					NOT NULL,
@@ -100,3 +99,4 @@ CREATE TABLE REVIEW
 	
 
 );
+
