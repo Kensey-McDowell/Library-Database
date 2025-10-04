@@ -4,7 +4,6 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      {/* Navigation Bar */}
       <nav className="navbar">
         <div className="top-left-buttons">
           <button>Sign In</button>
