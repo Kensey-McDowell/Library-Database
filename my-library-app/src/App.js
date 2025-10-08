@@ -13,7 +13,18 @@ function App() {
           <h1 className="main-title">Multi-Branch Library Management System</h1>
         </header>
       </nav>
-      <div class="box"></div>
+      <div class="centered-box">
+        <div className="featured">
+          <div className='alt-wrapper'>
+            <h1 className='alt-title'>Featured Reads</h1>
+          </div>
+          <div className="featured-details"></div>
+        </div>
+
+        <div className="recommendations">
+          
+        </div>
+      </div>
     </div>
   );
 }

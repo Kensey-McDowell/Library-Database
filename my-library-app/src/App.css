@@ -29,6 +29,19 @@ body {
   margin: 0;
 }
 
+.alt-title {
+  font-size: 2rem;
+  font-family: 'Georgia', serif;
+  color: rgb(229, 212, 149);
+  text-align: center;
+  margin: 0;
+}
+
+.alt-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
 .top-right-buttons {
   position: relative;
   top: 20px;
@@ -67,13 +80,27 @@ button:hover {
   font-weight: bold;
 }
 
-.box {
-  display: flex;
-  justify-content: flex-start;
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 20px; 
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+.centered-box {
+  position: fixed; /* Allows positioning relative to the nearest positioned ancestor, or the initial containing block */
+  top: 60%; /* Moves the top edge of the box to the vertical center of the screen */
+  left: 50%; /* Moves the left edge of the box to the horizontal center of the screen */
+  transform: translate(-50%, -50%); /* Adjusts the box's position to perfectly center it based on its own dimensions */
+  width: 1000px; /* Example width for the box */
+  height: 500px; /* Example height for the box */
+   border-radius: 10px;
+  background-color: white; /* Sets the background color to white */
+  border: 1px solid #ccc; /* Optional: adds a subtle border */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: adds a subtle shadow */
+  padding: 20px; /* Optional: adds padding inside the box */
+  text-align: center; /* Optional: centers text within the box */
+}
+
+body {
+  margin: 0; /* Removes default body margin for full screen coverage */
+  height: 100vh; /* Ensures the body takes up the full viewport height */
+  display: flex; /* Makes the body a flex container */
+  justify-content: center; /* Horizontally centers content within the body */
+  align-items: center; /* Vertically centers content within the body */
 }
 
 .featured {
@@ -105,6 +132,29 @@ button:hover {
   padding: 10px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.bookSpine {
+  width: 40px;
+  height: 200px;
+  background-color: #8B4513;
+  border-radius: 4px;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  writing-mode: vertical-rl;
+  text-align: center;
+  font-family: 'Georgia', serif;
+  font-size: 14px;
+  color: #fff;
+  padding: 10px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.bookSpine:hover {
+  transform: scale(1.05);
 }
 
 .inline {
