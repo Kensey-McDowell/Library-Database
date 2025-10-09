@@ -1,19 +1,23 @@
-import React from 'react';
-import './App.css';
+import { useNavigate } from "react-router-dom";
+import "./Book.css";
 
-function App() {
+export default function Book({ title, route }) {
+  const navigate = useNavigate();
+
+  const handleClick = (e) => {
+    const book = e.currentTarget;
+    book.classList.add("open");
+    setTimeout(() => navigate(route), 1000); // go to new page after flip
+  };
+
   return (
-    <div className="App">
-      <div className="top-left-buttons">
-        <button>Sign In</button>
-        <button>Log In</button>
+    <div className="book" onClick={handleClick}>
+      <div className="cover front">
+        <h3>{title}</h3>
       </div>
-      <header className="App-header">
-        <h1 className="main-title">Multi-Branch Library Management System</h1>
-      </header>
+      <div className="pages"></div>
+      <div className="cover back"></div>
     </div>
   );
 }
-
-export default App;
 
