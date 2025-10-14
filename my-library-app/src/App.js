@@ -34,6 +34,8 @@ function Home() {
         </div>
       </nav>
       <div className="bookshelf">
+        <p>Welcome!</p>
+        <p>Please begin by selecting a library to browse it's catalog.</p>
         <div className="shelf-wrapper">
           <div className="book-row">
             <Book title="Main Library" route="/main" />
@@ -75,6 +77,10 @@ function LibraryPage({ name }) {
       <p>Welcome to the {name} branch!</p>
     </div>
   );
+}
+
+function SignUpPage(){
+
 }
 
 export default function App() {
