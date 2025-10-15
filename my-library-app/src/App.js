@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+import { Link } from 'react-router-dom';
+import Logo from './assets/MBLS_Logo.png';
 import "./App.css";
 
 function Book({ title, route }) {
@@ -25,16 +27,19 @@ function Home() {
   return (
     <div className="App">
       <nav className="navbar">
-        <header className="App-header">
-          <h1 className="main-title">Multi-Branch Library Management System</h1>
-        </header>
+        <img src={Logo} width={70} height={70} alt=''></img>
+        <h1 className="main-title">Multi-Branch Library Management System</h1>
         <div className="top-right-buttons">
-          <button>Sign Up</button>
-          <button>Log In</button>
+          <Link to="/SignUp">
+            <button>Sign Up</button>
+          </Link>
+          <Link to="/Login">
+            <button>Log In</button>
+          </Link>
         </div>
       </nav>
       <div className="bookshelf">
-        <p>Welcome!</p>
+        <h1>Welcome!</h1>
         <p>Please begin by selecting a library to browse it's catalog.</p>
         <div className="shelf-wrapper">
           <div className="book-row">
@@ -69,18 +74,32 @@ function LibraryPage({ name }) {
           <h1 className="main-title">Multi-Branch Library Management System</h1>
         </header>
         <div className="top-right-buttons">
-          <button>Sign Up</button>
-          <button>Log In</button>
+          <Link to="/SignUp">
+            <button>Sign Up</button>
+          </Link>
+          <Link to="/Login">
+            <button>Log In</button>
+          </Link>
         </div>
       </nav>
-      <h2>{name}</h2>
-      <p>Welcome to the {name} branch!</p>
+      <div className="Info-box">
+        <h2>{name}</h2>
+        <p>Welcome to the {name} branch!</p>
+      </div>
     </div>
   );
 }
 
 function SignUpPage(){
+  <div className="Sign-Up">
+    <p>Sign Up page here</p>
+  </div>
+}
 
+function LoginPage(){
+  <div className="Login">
+    <p>Login page here</p>
+  </div>
 }
 
 export default function App() {
@@ -88,6 +107,8 @@ export default function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/SignUp" element={<SignUpPage name ="Sign-Up"/>} />
+        <Route path="/Login" element={<LoginPage name ="Login"/>} />
         <Route path="/main" element={<LibraryPage name="Main Library" />} />
         <Route path="/green" element={<LibraryPage name="Green Hills" />} />
         <Route path="/donelson" element={<LibraryPage name="Donelson" />} />
