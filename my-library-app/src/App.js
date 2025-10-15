@@ -1,6 +1,16 @@
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import Logo from './assets/MBLS_Logo.png';
+import Main from './assets/Main_Library.png';
+import Hadley from './assets/Hadley_Park.png';
+import Green from './assets/Green_Hills.png';
+import Donelson from './assets/Donelson.png';
+import Edgehill from './assets/Edgehill.png';
+import Bordeaux from './assets/Bordeaux.png';
+import Inglewood from './assets/Inglewood.png';
+import Richland from './assets/Richland_Park.png';
+import Hermitage from './assets/Hermitage.png';
+import Thompson from './assets/Thompson_Lane.png';
 import "./App.css";
 
 function Book({ title, route }) {
@@ -27,7 +37,9 @@ function Home() {
   return (
     <div className="App">
       <nav className="navbar">
-        <img src={Logo} width={70} height={70} alt=''></img>
+        <Link to="/">
+          <img src={Logo} width={70} height={70} alt=''></img>
+        </Link>
         <h1 className="main-title">Multi-Branch Library Management System</h1>
         <div className="top-right-buttons">
           <Link to="/SignUp">
@@ -67,12 +79,45 @@ function Home() {
 }
 
 function LibraryPage({ name }) {
+  let imageElement = null;
+  if (name === 'Main Library') {
+    imageElement = <img src={Main} width={800} height={400} alt='' />;
+  }
+  else if(name === 'Green Hills') {
+    imageElement = <img src={Green} width={800} height={400} alt='' />;
+  }
+  else if(name === 'Donelson') {
+    imageElement = <img src={Donelson} width={800} height={400} alt='' />;
+  }
+  else if(name === 'Hadley Park') {
+    imageElement = <img src={Hadley} width={800} height={400} alt='' />;
+  }
+  else if(name === 'Edgehill') {
+    imageElement = <img src={Edgehill} width={800} height={400} alt='' />;
+  }
+  else if(name === 'Bordeaux') {
+    imageElement = <img src={Bordeaux} width={800} height={400} alt='' />;
+  }
+  else if(name === 'Inglewood') {
+    imageElement = <img src={Inglewood} width={800} height={400} alt='' />;
+  }
+  else if(name === 'Richland Park') {
+    imageElement = <img src={Richland} width={800} height={400} alt='' />;
+  }
+  else if(name === 'Hermitage') {
+    imageElement = <img src={Hermitage} width={800} height={400} alt='' />;
+  }
+  else if(name === 'Thompson Lane') {
+    imageElement = <img src={Thompson} width={800} height={400} alt='' />;
+  }
+
   return (
     <div className="library-page">
       <nav className="navbar">
-        <header className="App-header">
-          <h1 className="main-title">Multi-Branch Library Management System</h1>
-        </header>
+         <Link to="/">
+          <img src={Logo} width={70} height={70} alt=''></img>
+        </Link>
+        <h1 className="main-title">Multi-Branch Library Management System</h1>
         <div className="top-right-buttons">
           <Link to="/SignUp">
             <button>Sign Up</button>
@@ -83,23 +128,32 @@ function LibraryPage({ name }) {
         </div>
       </nav>
       <div className="Info-box">
-        <h2>{name}</h2>
-        <p>Welcome to the {name} branch!</p>
+        <div  style={{ display: 'flex', alignItems: 'center' }}>
+          <div>{imageElement}</div>
+          <div>
+            <h2>{name}</h2>
+            <p>Welcome to the {name} branch!</p>
+          </div>
+        </div>
       </div>
     </div>
   );
 }
 
 function SignUpPage(){
-  <div className="Sign-Up">
-    <p>Sign Up page here</p>
-  </div>
+  return (
+    <div className="Sign-Up">
+      <p>Sign Up page here</p>
+    </div>
+  );
 }
 
 function LoginPage(){
-  <div className="Login">
-    <p>Login page here</p>
-  </div>
+  return (
+    <div className="Login">
+      <p>Login page here</p>
+    </div>
+  );
 }
 
 export default function App() {
