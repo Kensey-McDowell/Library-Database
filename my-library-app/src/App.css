@@ -76,6 +76,7 @@
   perspective: 1000px;
   cursor: pointer;
   transition: transform 0.4s ease;
+  z-index: 2;
 }
 
 .book:hover {
@@ -118,7 +119,7 @@
 /* Pages (middle block) */
 .pages {
   margin-top: 4px;
-  background: linear-gradient(90deg, #fefbf7 0%, #f5f1ea 100%);
+  background: white;
   width: 118px;
   left: 1px;
   z-index: -1;
@@ -131,13 +132,6 @@
   left: 0;
   right: 0;
   bottom: 5px;
-  background-image: repeating-linear-gradient(
-    to right,
-    rgba(0,0,0,0.05) 0px,
-    rgba(0,0,0,0.05) 1px,
-    transparent 2px,
-    transparent 4px
-  );
   opacity: 0.2;
 }
 
@@ -147,9 +141,18 @@
 }
 
 @keyframes openBook {
-  0% { transform: rotateY(0deg); }
+  0% { transform: rotateY(0deg) }
   40% { transform: rotateY(-120deg); }
   100% { transform: rotateY(-180deg); }
+}
+
+.viewport {
+  transition: transform 2s ease-in-out;
+  transform-origin: center center;
+}
+
+.viewport.zoomed-in {
+  transform: scale(200); 
 }
 
 /* Shelf */
@@ -192,6 +195,29 @@
   transform: translate(150px, 20px);
   font-family: 'Georgia', serif;
   font-size: 1.3rem;
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1.2s ease, transform 1.2s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-delay-1 {
+  transition-delay: 0.3s;
+}
+
+.fade-delay-2 {
+  transition-delay: 0.6s;
+}
+
+.fade-delay-3 {
+  transition-delay: 1s;
 }
 
 .Info-box {

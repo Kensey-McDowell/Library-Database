@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import Logo from './assets/MBLS_Logo.png';
 import Main from './assets/Main_Library.png';
 import Hadley from './assets/Hadley_Park.png';
@@ -13,13 +14,26 @@ import Hermitage from './assets/Hermitage.png';
 import Thompson from './assets/Thompson_Lane.png';
 import "./App.css";
 
-function Book({ title, route }) {
+function Book({ title, route, setIsZooming, setZoomTransform }) {
   const navigate = useNavigate();
 
   const handleClick = (e) => {
     const book = e.currentTarget;
+    const rect = book.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+
+    const offsetX = window.innerWidth /2 - centerX;
+    const offsetY = window.innerHeight / 2 - centerY;
+
+    setZoomTransform(`translate(${offsetX}px, ${offsetY}px) scale(15)`);
+    setIsZooming(true);
+
     book.classList.add("open");
-    setTimeout(() => navigate(route), 1000); // after flip, go to page
+
+    setTimeout(() => {
+      navigate(route);
+    }, 3000);
   };
 
   return (
@@ -34,44 +48,49 @@ function Book({ title, route }) {
 }
 
 function Home() {
+  const [isZooming, setIsZooming] = useState(false);
+  const [zoomTransform, setZoomTransform] = useState('');
   return (
     <div className="App">
-      <nav className="navbar">
-        <Link to="/">
-          <img src={Logo} width={70} height={70} alt=''></img>
-        </Link>
-        <h1 className="main-title">Multi-Branch Library Management System</h1>
-        <div className="top-right-buttons">
-          <Link to="/SignUp">
-            <button>Sign Up</button>
+      <div className="viewport" style={{ transform: isZooming ? zoomTransform : 'none', 
+      transition: 'transform 1s ease-in-out', transformOrigin: 'center center',}}>
+        <nav className="navbar">
+          <Link to="/">
+            <img src={Logo} width={70} height={70} alt=''></img>
           </Link>
-          <Link to="/Login">
-            <button>Log In</button>
-          </Link>
-        </div>
-      </nav>
-      <div className="bookshelf">
-        <h1>Welcome!</h1>
-        <p>Please begin by selecting a library to browse it's catalog.</p>
-        <div className="shelf-wrapper">
-          <div className="book-row">
-            <Book title="Main Library" route="/main" />
-            <Book title="Green Hills" route="/green" />
-            <Book title="Donelson" route="/donelson" />
-            <Book title="Hadley Park" route="/hadley" />
-            <Book title="Edgehill" route="/edgehill" />
+          <h1 className="main-title">Multi-Branch Library Management System</h1>
+          <div className="top-right-buttons">
+            <Link to="/SignUp">
+              <button>Sign Up</button>
+            </Link>
+            <Link to="/Login">
+              <button>Log In</button>
+            </Link>
           </div>
-          <div className="shelf"></div>
-        </div>
-        <div className="shelf-wrapper">
-          <div className="book-row second-row">
-            <Book title="Bordeaux" route="/bordeaux" />
-            <Book title="Inglewood" route="/inglewood" />
-            <Book title="Richland Park" route="/richland" />
-            <Book title="Hermitage" route="/hermitage" />
-            <Book title="Thompson Lane" route="/thompson" />
+        </nav>
+        <div className="bookshelf">
+          <h1>Welcome!</h1>
+          <p>Please begin by selecting a library to browse it's catalog.</p>
+          <div className="shelf-wrapper">
+            <div className="book-row">
+              <Book title="Main Library" route="/main" setIsZooming={setIsZooming} setZoomTransform={setZoomTransform}/>
+              <Book title="Green Hills" route="/green" setIsZooming={setIsZooming} setZoomTransform={setZoomTransform}/>
+              <Book title="Donelson" route="/donelson" setIsZooming={setIsZooming} setZoomTransform={setZoomTransform}/>
+              <Book title="Hadley Park" route="/hadley" setIsZooming={setIsZooming} setZoomTransform={setZoomTransform}/>
+              <Book title="Edgehill" route="/edgehill" setIsZooming={setIsZooming} setZoomTransform={setZoomTransform}/>
+            </div>
+            <div className="shelf"></div>
           </div>
-          <div className="shelf"></div>
+          <div className="shelf-wrapper">
+            <div className="book-row second-row">
+              <Book title="Bordeaux" route="/bordeaux" setIsZooming={setIsZooming} setZoomTransform={setZoomTransform}/>
+              <Book title="Inglewood" route="/inglewood" setIsZooming={setIsZooming} setZoomTransform={setZoomTransform}/>
+              <Book title="Richland Park" route="/richland" setIsZooming={setIsZooming} setZoomTransform={setZoomTransform}/>
+              <Book title="Hermitage" route="/hermitage" setIsZooming={setIsZooming} setZoomTransform={setZoomTransform}/>
+              <Book title="Thompson Lane" route="/thompson" setIsZooming={setIsZooming} setZoomTransform={setZoomTransform}/>
+            </div>
+            <div className="shelf"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -79,6 +98,16 @@ function Home() {
 }
 
 function LibraryPage({ name }) {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 300); // delay before fade-in
+
+    return () => clearTimeout(timer);
+  }, []);
+
   let imageElement = null;
   if (name === 'Main Library') {
     imageElement = <img src={Main} width={800} height={400} alt='' />;
@@ -113,26 +142,32 @@ function LibraryPage({ name }) {
 
   return (
     <div className="library-page">
-      <nav className="navbar">
-         <Link to="/">
-          <img src={Logo} width={70} height={70} alt=''></img>
-        </Link>
-        <h1 className="main-title">Multi-Branch Library Management System</h1>
-        <div className="top-right-buttons">
-          <Link to="/SignUp">
-            <button>Sign Up</button>
+      <div className={`page-body fade-in ${isVisible ? 'visible' : ''}`}>
+        <nav className="navbar">
+          <Link to="/">
+            <img src={Logo} width={70} height={70} alt=''></img>
           </Link>
-          <Link to="/Login">
-            <button>Log In</button>
-          </Link>
-        </div>
-      </nav>
-      <div className="Info-box">
-        <div  style={{ display: 'flex', alignItems: 'center' }}>
-          <div>{imageElement}</div>
-          <div>
-            <h2>{name}</h2>
-            <p>Welcome to the {name} branch!</p>
+          <h1 className="main-title">Multi-Branch Library Management System</h1>
+          <div className="top-right-buttons">
+            <Link to="/SignUp">
+              <button>Sign Up</button>
+            </Link>
+            <Link to="/Login">
+              <button>Log In</button>
+            </Link>
+          </div>
+        </nav>
+        <div className={`fade-in fade-delay-2 ${isVisible ? 'visible' : ''}`}>
+          <div className="Info-box">
+          <div  style={{ display: 'flex', alignItems: 'center' }}>
+            <div>{imageElement}</div>
+            <div>
+              <h2 className={`fade-in fade-delay-2 ${isVisible ? 'visible' : ''}`}>{name}</h2>
+              <p className={`fade-in fade-delay-3 ${isVisible ? 'visible' : ''}`}>
+                Welcome to the {name} branch!
+              </p>
+            </div>
+          </div>
           </div>
         </div>
       </div>
