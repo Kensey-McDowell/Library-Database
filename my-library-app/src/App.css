@@ -146,9 +146,30 @@
   100% { transform: rotateY(-180deg); }
 }
 
+.book-clone {
+  width: 120px;
+  height: 160px;
+  border-radius: 4px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+.book-clone .cover.front {
+  transform-origin: left center;
+  transform: perspective(800px) rotateY(0deg);
+  transition: transform 1s ease-in-out;
+}
+
+.book-clone.open .cover.front {
+  transform: perspective(800px) rotateY(-160deg);
+}
+
 .viewport {
-  transition: transform 2s ease-in-out;
   transform-origin: center center;
+  will-change: transform;
+  display: inline-block;
 }
 
 .viewport.zoomed-in {
@@ -192,7 +213,7 @@
   transition: transform 0.4s ease, box-shadow 0.4s ease;
   cursor: pointer;
   margin-left: 75px;
-  transform: translate(150px, 20px);
+  margin: 20px auto;
   font-family: 'Georgia', serif;
   font-size: 1.3rem;
 }
@@ -218,6 +239,14 @@
 
 .fade-delay-3 {
   transition-delay: 1s;
+}
+
+.fade-delay-4 {
+  transition-delay: 1.5s;
+}
+
+.fade-delay-5 {
+  transition-delay: 2s;
 }
 
 .Info-box {

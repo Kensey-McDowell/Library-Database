@@ -20,20 +20,84 @@ function Book({ title, route, setIsZooming, setZoomTransform }) {
   const handleClick = (e) => {
     const book = e.currentTarget;
     const rect = book.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
 
-    const offsetX = window.innerWidth /2 - centerX;
-    const offsetY = window.innerHeight / 2 - centerY;
+    // Clone the book and inherit all CSS
+    const clone = book.cloneNode(true);
+    clone.classList.add("book-clone");
+    clone.className = book.className; // inherit .book and children styles
 
-    setZoomTransform(`translate(${offsetX}px, ${offsetY}px) scale(15)`);
-    setIsZooming(true);
+    // Position clone over the original book
+    clone.style.position = "fixed";
+    clone.style.left = rect.left + "px";
+    clone.style.top = rect.top + "px";
+    clone.style.margin = 0;
+    clone.style.zIndex = 9999;
+    clone.style.transformOrigin = "center center";
+    clone.style.transformStyle = "preserve-3d";
+    clone.style.backfaceVisibility = "hidden";
+    clone.style.overflow = "hidden";
+    clone.style.transition = "transform 1s ease-in-out";
+    clone.style.visibility = "visible"; // front cover shows immediately
 
-    book.classList.add("open");
+    // Hide inner pages/back initially
+    const clonePages = clone.querySelector(".pages");
+    if (clonePages) clonePages.style.visibility = "hidden";
 
+    const cloneBack = clone.querySelector(".back");
+    if (cloneBack) cloneBack.style.visibility = "hidden";
+
+    // Append clone first
+    document.body.appendChild(clone);
+
+    // Hide the original book now
+    book.style.visibility = "hidden";
+    document.body.style.overflow = "hidden";
+
+    // Calculate center offsets for zoom
+    const bookCenterX = rect.left + rect.width / 2;
+    const bookCenterY = rect.top + rect.height / 2;
+    const windowCenterX = window.innerWidth / 2;
+    const windowCenterY = window.innerHeight / 2 + 40; // navbar offset
+    const translateX = windowCenterX - bookCenterX;
+    const translateY = windowCenterY - bookCenterY;
+
+    // Step 1: reveal pages/back cover & start opening the front
     setTimeout(() => {
-      navigate(route);
-    }, 3000);
+      if (clonePages) clonePages.style.visibility = "visible";
+      if (cloneBack) cloneBack.style.visibility = "visible";
+
+      clone.classList.add("open"); // front cover rotates smoothly via CSS
+    }, 50);
+
+    // Step 2: zoom/translate clone after cover starts opening
+    setTimeout(() => {
+      const scale = 16; // adjust as needed to fill screen
+      clone.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale}) perspective(1000px) rotateY(-15deg)`;
+    }, 600); // wait a bit for cover to start opening
+
+    // Step 3: fade to white overlay after zoom
+    setTimeout(() => {
+      const overlay = document.createElement("div");
+      overlay.style.position = "fixed";
+      overlay.style.top = 0;
+      overlay.style.left = 0;
+      overlay.style.width = "100vw";
+      overlay.style.height = "100vh";
+      overlay.style.background = "white";
+      overlay.style.zIndex = 10000;
+      overlay.style.opacity = 0;
+      overlay.style.transition = "opacity 0.5s ease";
+      document.body.appendChild(overlay);
+
+      requestAnimationFrame(() => (overlay.style.opacity = 1));
+
+      setTimeout(() => {
+        clone.remove();
+        overlay.remove();
+        document.body.style.overflow = "";
+        navigate(route); // navigate after everything is cleaned up
+      }, 500); // fade duration
+    }, 1500);
   };
 
   return (
@@ -50,10 +114,18 @@ function Book({ title, route, setIsZooming, setZoomTransform }) {
 function Home() {
   const [isZooming, setIsZooming] = useState(false);
   const [zoomTransform, setZoomTransform] = useState('');
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 300); // delay before fade-in
+
+    return () => clearTimeout(timer);
+  }, []);
   return (
     <div className="App">
-      <div className="viewport" style={{ transform: isZooming ? zoomTransform : 'none', 
-      transition: 'transform 1s ease-in-out', transformOrigin: 'center center',}}>
+      <div className={`fade-in fade-delay-1 ${isVisible ? 'visible' : ''}`}>
         <nav className="navbar">
           <Link to="/">
             <img src={Logo} width={70} height={70} alt=''></img>
@@ -68,9 +140,16 @@ function Home() {
             </Link>
           </div>
         </nav>
+        <div className="viewport" style={{ transform: isZooming ? zoomTransform : 'none', transition: 'transform 1s ease-in-out'}}>
+        <div className={`fade-in fade-delay-2 ${isVisible ? 'visible' : ''}`}>
         <div className="bookshelf">
+          <div className={`fade-in fade-delay-3 ${isVisible ? 'visible' : ''}`}>
           <h1>Welcome!</h1>
+          </div>
+          <div className={`fade-in fade-delay-4 ${isVisible ? 'visible' : ''}`}>
           <p>Please begin by selecting a library to browse it's catalog.</p>
+          </div>
+          <div className={`fade-in fade-delay-5 ${isVisible ? 'visible' : ''}`}>
           <div className="shelf-wrapper">
             <div className="book-row">
               <Book title="Main Library" route="/main" setIsZooming={setIsZooming} setZoomTransform={setZoomTransform}/>
@@ -91,7 +170,10 @@ function Home() {
             </div>
             <div className="shelf"></div>
           </div>
+          </div>
+          </div>
         </div>
+      </div>
       </div>
     </div>
   );
@@ -157,7 +239,7 @@ function LibraryPage({ name }) {
             </Link>
           </div>
         </nav>
-        <div className={`fade-in fade-delay-2 ${isVisible ? 'visible' : ''}`}>
+        <div className={`fade-in fade-delay-1 ${isVisible ? 'visible' : ''}`}>
           <div className="Info-box">
           <div  style={{ display: 'flex', alignItems: 'center' }}>
             <div>{imageElement}</div>
