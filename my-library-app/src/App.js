@@ -290,32 +290,30 @@ function LibraryPage({ name }) {
 
   return (
     <div className="library-page" style={{padding: '20px'}}>
-      <div className={`page-body fade-in ${isVisible ? 'visible' : ''}`}>
-        <nav className="navbar" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', borderBottom: '1px solid #ccc', paddingBottom: '10px'}}>
+      <div className={`fade-in fade-delay-1 ${isVisible ? 'visible' : ''}`}>
+        <nav className="navbar">
           <Link to="/">
             <img src={Logo} width={70} height={70} alt=''></img>
           </Link>
-          <h1 className="main-title" style={{fontSize: '24px'}}>Multi-Branch Library Management System</h1>
-          <div className="top-right-buttons" style={{display: 'flex', gap: '10px'}}>
+          <h1 className="main-title">Multi-Branch Library Management System</h1>
+          <div className="top-right-buttons">
             <Link to="/SignUp">
-              <button style={{padding: '8px 15px', border: '1px solid blue', background: 'lightblue', borderRadius: '5px'}}>Sign Up</button>
+              <button>Sign Up</button>
             </Link>
             <Link to="/Login">
-              <button style={{padding: '8px 15px', border: '1px solid green', background: 'lightgreen', borderRadius: '5px'}}>Log In</button>
+              <button>Log In</button>
             </Link>
           </div>
         </nav>
-        <div className={`fade-in fade-delay-1 ${isVisible ? 'visible' : ''}`}>
-          <div className="Info-box" style={{border: '1px solid #ddd', padding: '20px', borderRadius: '8px', background: '#f9f9f9'}}>
+        <div className={`fade-in fade-delay-2 ${isVisible ? 'visible' : ''}`}>
+          <div className="Info-box">
           <div  style={{ display: 'flex', alignItems: 'flex-start', gap: '40px' }}>
             <div>{imageElement}</div>
-            <div style={{flexGrow: 1}}>
-              <h2 className={`fade-in fade-delay-2 ${isVisible ? 'visible' : ''}`} style={{fontSize: '28px', color: '#333'}}>{name}</h2>
-              <p className={`fade-in fade-delay-3 ${isVisible ? 'visible' : ''}`} style={{fontSize: '16px', color: '#555', marginBottom: '15px'}}>
+            <div>
+              <h2 className={`fade-in fade-delay-3 ${isVisible ? 'visible' : ''}`}>{name}</h2>
+              <p className={`fade-in fade-delay-4 ${isVisible ? 'visible' : ''}`}>
                 Welcome to the {name} branch!
               </p>
-
-              {/* INSERTED CATALOG CONTENT HERE */}
               {catalogContent}
             </div>
           </div>
