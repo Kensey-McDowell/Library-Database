@@ -181,73 +181,142 @@ function Home() {
 
 function LibraryPage({ name }) {
   const [isVisible, setIsVisible] = useState(false);
+  const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
+  // Effect for component visibility (unrelated to fetching)
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(true);
-    }, 300); // delay before fade-in
-
+    }, 300);
     return () => clearTimeout(timer);
   }, []);
 
+  // Effect for API Data Fetching
+  useEffect(() => {
+    const fetchBookData = async () => {
+        // NOTE: If different branches need different API calls, update API_URL here.
+        // For now, we fetch ALL books and assume the catalog filters later.
+        const API_URL = 'http://localhost:5000/api/books';
+
+        try {
+            const response = await fetch(API_URL);
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            // Success Check (Prints to Browser Console - F12)
+            console.log(`--- API Connection Successful! (Branch: ${name}) ---`);
+            console.log("Data Received from Flask Backend:", data);
+
+            setBooks(data.books || []);
+
+        } catch (err) {
+            console.error("Connection Error (Check Flask Server/CORS):", err);
+            setError("Failed to fetch data. Ensure Flask server is running on port 5000.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    fetchBookData();
+  }, [name]); // Re-run fetch if the branch name changes
+
   let imageElement = null;
+  // --- Image Logic (Using Placeholders) ---
   if (name === 'Main Library') {
-    imageElement = <img src={Main} width={800} height={400} alt='' />;
+    imageElement = <img src={Main} width={800} height={400} alt='' style={{border: '1px solid #ccc'}} />;
   }
   else if(name === 'Green Hills') {
-    imageElement = <img src={Green} width={800} height={400} alt='' />;
+    imageElement = <img src={Green} width={800} height={400} alt='' style={{border: '1px solid #ccc'}} />;
   }
   else if(name === 'Donelson') {
-    imageElement = <img src={Donelson} width={800} height={400} alt='' />;
+    imageElement = <img src={Donelson} width={800} height={400} alt='' style={{border: '1px solid #ccc'}} />;
   }
   else if(name === 'Hadley Park') {
-    imageElement = <img src={Hadley} width={800} height={400} alt='' />;
+    imageElement = <img src={Hadley} width={800} height={400} alt='' style={{border: '1px solid #ccc'}} />;
   }
   else if(name === 'Edgehill') {
-    imageElement = <img src={Edgehill} width={800} height={400} alt='' />;
+    imageElement = <img src={Edgehill} width={800} height={400} alt='' style={{border: '1px solid #ccc'}} />;
   }
   else if(name === 'Bordeaux') {
-    imageElement = <img src={Bordeaux} width={800} height={400} alt='' />;
+    imageElement = <img src={Bordeaux} width={800} height={400} alt='' style={{border: '1px solid #ccc'}} />;
   }
   else if(name === 'Inglewood') {
-    imageElement = <img src={Inglewood} width={800} height={400} alt='' />;
+    imageElement = <img src={Inglewood} width={800} height={400} alt='' style={{border: '1px solid #ccc'}} />;
   }
   else if(name === 'Richland Park') {
-    imageElement = <img src={Richland} width={800} height={400} alt='' />;
+    imageElement = <img src={Richland} width={800} height={400} alt='' style={{border: '1px solid #ccc'}} />;
   }
   else if(name === 'Hermitage') {
-    imageElement = <img src={Hermitage} width={800} height={400} alt='' />;
+    imageElement = <img src={Hermitage} width={800} height={400} alt='' style={{border: '1px solid #ccc'}} />;
   }
   else if(name === 'Thompson Lane') {
-    imageElement = <img src={Thompson} width={800} height={400} alt='' />;
+    imageElement = <img src={Thompson} width={800} height={400} alt='' style={{border: '1px solid #ccc'}} />;
+  }
+
+  // Content for the Book Catalog section
+  let catalogContent;
+  if (loading) {
+    catalogContent = <div style={{padding: '10px', textAlign: 'center', fontSize: '18px', color: 'blue'}}>Loading catalog...</div>;
+  } else if (error) {
+    catalogContent = <div style={{padding: '10px', textAlign: 'center', color: 'red', border: '1px solid red', borderRadius: '5px'}}>{error}</div>;
+  } else {
+    catalogContent = (
+      <div style={{marginTop: '15px'}}>
+        <h3 style={{fontSize: '16px', fontWeight: 'bold', marginBottom: '10px'}}>Available Books ({books.length})</h3>
+        {books.length > 0 ? (
+          <p style={{fontSize: '14px', color: 'green'}}>Successfully fetched {books.length} records. **Connection Verified!**</p>
+        ) : (
+          <p style={{fontSize: '14px', color: 'gray'}}>No books found in the current catalog. (Check your MySQL data)</p>
+        )}
+        {/* Simple list of fetched books */}
+        <div style={{ maxHeight: '200px', overflowY: 'auto', marginTop: '10px', border: '1px solid #ccc', padding: '5px', background: '#ffffff' }}>
+            {books.slice(0, 5).map((book, index) => (
+                <div key={index} style={{ fontSize: '12px', borderBottom: '1px dotted #ccc', padding: '3px 0', color: '#333333' }}>
+                    {/* FIX: Use Title and Author_Firstname + Author_Lastname */}
+                    **{book.Title}** by {book.Author_Firstname} {book.Author_Lastname} (ISBN: {book.ISBN})
+                </div>
+            ))}
+            {books.length > 5 && <div style={{ fontSize: '12px', color: '#888' }}>... and {books.length - 5} more books.</div>}
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="library-page">
+    <div className="library-page" style={{padding: '20px'}}>
       <div className={`page-body fade-in ${isVisible ? 'visible' : ''}`}>
-        <nav className="navbar">
+        <nav className="navbar" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', borderBottom: '1px solid #ccc', paddingBottom: '10px'}}>
           <Link to="/">
             <img src={Logo} width={70} height={70} alt=''></img>
           </Link>
-          <h1 className="main-title">Multi-Branch Library Management System</h1>
-          <div className="top-right-buttons">
+          <h1 className="main-title" style={{fontSize: '24px'}}>Multi-Branch Library Management System</h1>
+          <div className="top-right-buttons" style={{display: 'flex', gap: '10px'}}>
             <Link to="/SignUp">
-              <button>Sign Up</button>
+              <button style={{padding: '8px 15px', border: '1px solid blue', background: 'lightblue', borderRadius: '5px'}}>Sign Up</button>
             </Link>
             <Link to="/Login">
-              <button>Log In</button>
+              <button style={{padding: '8px 15px', border: '1px solid green', background: 'lightgreen', borderRadius: '5px'}}>Log In</button>
             </Link>
           </div>
         </nav>
         <div className={`fade-in fade-delay-1 ${isVisible ? 'visible' : ''}`}>
-          <div className="Info-box">
-          <div  style={{ display: 'flex', alignItems: 'center' }}>
+          <div className="Info-box" style={{border: '1px solid #ddd', padding: '20px', borderRadius: '8px', background: '#f9f9f9'}}>
+          <div  style={{ display: 'flex', alignItems: 'flex-start', gap: '40px' }}>
             <div>{imageElement}</div>
-            <div>
-              <h2 className={`fade-in fade-delay-2 ${isVisible ? 'visible' : ''}`}>{name}</h2>
-              <p className={`fade-in fade-delay-3 ${isVisible ? 'visible' : ''}`}>
+            <div style={{flexGrow: 1}}>
+              <h2 className={`fade-in fade-delay-2 ${isVisible ? 'visible' : ''}`} style={{fontSize: '28px', color: '#333'}}>{name}</h2>
+              <p className={`fade-in fade-delay-3 ${isVisible ? 'visible' : ''}`} style={{fontSize: '16px', color: '#555', marginBottom: '15px'}}>
                 Welcome to the {name} branch!
               </p>
+
+              {/* INSERTED CATALOG CONTENT HERE */}
+              {catalogContent}
             </div>
           </div>
           </div>
