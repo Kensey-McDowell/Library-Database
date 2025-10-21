@@ -12,8 +12,9 @@
   align-items: center;
   background:  darkgrey;
   color: white;
-  padding: 15px 75px;
+  padding: 15px;
   box-shadow: 0 3px 10px rgba(0,0,0,0.4);
+  margin: auto;
   font-family: 'Georgia', serif;
 }
 
@@ -260,7 +261,7 @@
   padding: 20px;
   transition: transform 0.4s ease, box-shadow 0.4s ease;
   cursor: pointer;
-  transform: translate(50px, 20px);
+  margin: 20px auto;
   font-family: 'Georgia', serif;
   font-size: 1.3rem;
 }

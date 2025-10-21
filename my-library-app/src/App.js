@@ -289,7 +289,7 @@ function LibraryPage({ name }) {
   }
 
   return (
-    <div className="library-page" style={{padding: '20px'}}>
+    <div className="library-page">
       <div className={`fade-in fade-delay-1 ${isVisible ? 'visible' : ''}`}>
         <nav className="navbar">
           <Link to="/">
