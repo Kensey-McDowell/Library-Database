@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import AdminDashboard from './AdminDashboard';
 import Logo from './assets/MBLS_Logo.png';
 import Main from './assets/Main_Library.png';
 import Hadley from './assets/Hadley_Park.png';
@@ -17,7 +18,7 @@ import password_icon from './assets/passai.png';
 import email_icon from './assets/emailai.png';
 import "./App.css";
 
-function Book({ title, route, setIsZooming, setZoomTransform }) {
+function Book({ title, route }) {
   const navigate = useNavigate();
 
   const handleClick = (e) => {
@@ -115,9 +116,15 @@ function Book({ title, route, setIsZooming, setZoomTransform }) {
 }
 
 function Home() {
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
   const [isZooming, setIsZooming] = useState(false);
   const [zoomTransform, setZoomTransform] = useState('');
   const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -135,6 +142,16 @@ function Home() {
           </Link>
           <h1 className="main-title">Multi-Branch Library Management System</h1>
           <div className="top-right-buttons">
+             <label className="switch">
+            <input
+              type="checkbox"
+              checked={theme === "dark"}
+              onChange={() =>
+                setTheme(theme === "light" ? "dark" : "light")
+              }
+            />
+            <span className="slider"></span>
+          </label>
             <Link to="/SignUp">
               <button>Sign Up</button>
             </Link>
@@ -199,8 +216,6 @@ function LibraryPage({ name }) {
   // Effect for API Data Fetching
   useEffect(() => {
     const fetchBookData = async () => {
-        // NOTE: If different branches need different API calls, update API_URL here.
-        // For now, we fetch ALL books and assume the catalog filters later.
         const API_URL = 'http://localhost:5000/api/books';
 
         try {
@@ -230,7 +245,6 @@ function LibraryPage({ name }) {
   }, [name]); // Re-run fetch if the branch name changes
 
   let imageElement = null;
-  // --- Image Logic (Using Placeholders) ---
   if (name === 'Main Library') {
     imageElement = <img src={Main} width={800} height={400} alt='' style={{border: '1px solid #ccc'}} />;
   }
@@ -265,22 +279,22 @@ function LibraryPage({ name }) {
   // Content for the Book Catalog section
   let catalogContent;
   if (loading) {
-    catalogContent = <div style={{padding: '10px', textAlign: 'center', fontSize: '18px', color: 'blue'}}>Loading catalog...</div>;
+    catalogContent = <div style={{padding: '10px', textAlign: 'center', fontSize: '18px', color: 'white'}}>Loading catalog...</div>;
   } else if (error) {
-    catalogContent = <div style={{padding: '10px', textAlign: 'center', color: 'red', border: '1px solid red', borderRadius: '5px'}}>{error}</div>;
+    catalogContent = <div style={{padding: '10px', textAlign: 'center', color: 'white', border: '1px solid white', borderRadius: '5px'}}>{error}</div>;
   } else {
     catalogContent = (
       <div style={{marginTop: '15px'}}>
         <h3 style={{fontSize: '16px', fontWeight: 'bold', marginBottom: '10px'}}>Available Books ({books.length})</h3>
         {books.length > 0 ? (
-          <p style={{fontSize: '14px', color: 'green'}}>Successfully fetched {books.length} records. **Connection Verified!**</p>
+          <p style={{fontSize: '14px', color: 'white'}}>Successfully fetched {books.length} records. **Connection Verified!**</p>
         ) : (
-          <p style={{fontSize: '14px', color: 'gray'}}>No books found in the current catalog. (Check your MySQL data)</p>
+          <p style={{fontSize: '14px', color: 'white'}}>No books found in the current catalog. (Check your MySQL data)</p>
         )}
         {/* Simple list of fetched books */}
-        <div style={{ maxHeight: '200px', overflowY: 'auto', marginTop: '10px', border: '1px solid #ccc', padding: '5px', background: '#ffffff' }}>
+        <div style={{ maxHeight: '200px', overflowY: 'auto', marginTop: '10px', border: '1px solid #ccc', padding: '5px' }}>
             {books.slice(0, 5).map((book, index) => (
-                <div key={index} style={{ fontSize: '12px', borderBottom: '1px dotted #ccc', padding: '3px 0', color: '#333333' }}>
+                <div key={index} style={{ fontSize: '12px', borderBottom: '1px dotted #ccc', padding: '3px 0' }}>
                     {/* FIX: Use Title and Author_Firstname + Author_Lastname */}
                     **{book.Title}** by {book.Author_Firstname} {book.Author_Lastname} (ISBN: {book.ISBN})
                 </div>
@@ -400,6 +414,9 @@ function LoginPage(){
         <div className="top-right-buttons">
         </div>
       </nav>
+      <Link to="/admin">
+      <button>Admin</button>
+      </Link>
       <div className='container'>
         <div className="header">
           <div className="text">{action}</div>
@@ -435,6 +452,7 @@ export default function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/SignUp" element={<SignUpPage name ="Sign-Up"/>} />
         <Route path="/Login" element={<LoginPage name ="Login"/>} />
         <Route path="/main" element={<LibraryPage name="Main Library" />} />

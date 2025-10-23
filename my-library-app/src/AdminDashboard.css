@@ -1,0 +1,86 @@
+.AdminDashboard {
+  background: linear-gradient(180deg, #ffffff 0%, #c8c8c8 100%);
+  min-height: 100vh;
+  color: white;
+  font-family: "Segoe UI", sans-serif;
+  padding-bottom: 50px;
+}
+
+.dashboard-content {
+  width: 85%;
+  margin: 40px auto;
+  text-align: center;
+}
+
+.stats-grid {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.stat-card {
+  background: gray;
+  border: 1px solid rgb(116, 116, 116);
+  border-radius: 12px;
+  padding: 25px 40px;
+  width: 200px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(255,255,255,0.1);
+}
+.stat-card h3 {
+  font-size: 32px;
+  color: #f0c75e;
+}
+.stat-card p {
+  font-size: 16px;
+  color: #ccc;
+}
+
+.admin-actions {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin-top: 40px;
+}
+
+.action-card {
+  background: #2e2e2e;
+  border: 1px solid #555;
+  border-radius: 10px;
+  padding: 25px;
+  width: 250px;
+  text-align: left;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+.action-card:hover {
+  background: #383838;
+  transform: translateY(-3px);
+}
+.action-card h4 {
+  color: #f0c75e;
+  margin-bottom: 10px;
+}
+.action-card p {
+  color: #ccc;
+  margin-bottom: 15px;
+}
+.action-card button {
+  background: #f0c75e;
+  color: black;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.action-card button:hover {
+  background: #ffdd73;
+}
