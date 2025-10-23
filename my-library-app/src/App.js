@@ -12,6 +12,9 @@ import Inglewood from './assets/Inglewood.png';
 import Richland from './assets/Richland_Park.png';
 import Hermitage from './assets/Hermitage.png';
 import Thompson from './assets/Thompson_Lane.png';
+import user_icon from './assets/people.png';
+import password_icon from './assets/passai.png';
+import email_icon from './assets/emailai.png';
 import "./App.css";
 
 function Book({ title, route, setIsZooming, setZoomTransform }) {
@@ -289,7 +292,7 @@ function LibraryPage({ name }) {
   }
 
   return (
-    <div className="library-page">
+    <div className="library-page" style={{padding: '20px'}}>
       <div className={`fade-in fade-delay-1 ${isVisible ? 'visible' : ''}`}>
         <nav className="navbar">
           <Link to="/">
@@ -325,18 +328,105 @@ function LibraryPage({ name }) {
 }
 
 function SignUpPage(){
+ const [isVisible, setIsVisible] = useState(false);
+ const [action, setAction] = useState("Sign Up");
+  // Effect for component visibility (unrelated to fetching)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <div className="Sign-Up">
-      <p>Sign Up page here</p>
-    </div>
+    <>
+      <nav className="navbar">
+        <Link to="/">
+          <img src={Logo} width={70} height={70} alt=''></img>
+        </Link>
+        <h1 className="main-title">Multi-Branch Library Management System</h1>
+        <div className="top-right-buttons">
+        </div>
+      </nav>
+
+      <div className='container'>
+        <div className="header">
+          <div className="text">{action}</div>
+          <div className="underline"></div>
+        </div>
+        <div className="inputs">
+            {action==="Login" ? null : <div className="input">
+            <img src={user_icon} width={38} height={23} alt="" />
+            <input type="text" placeholder="Name" />
+          </div>}
+
+          <div className="input">
+            <img src={email_icon} width={38} height={23} alt="" />
+            <input type="email" placeholder="Email" />
+          </div>
+          <div className="input">
+            <img src={password_icon} width={38} height={23} alt="" />
+            <input type="password" placeholder="Password" />
+          </div>
+        </div>
+        {action==="Sign Up" ? <div></div> : <div className="forgot-password">Lost Password? <span> Click Here! </span> </div> }
+        <div className="submit-container">
+          <div className={action==="Login"?"submit gray":"submit"} onClick={()=>{setAction("Sign Up")}}>Sign Up</div>
+          <div className={action==="Sign Up"?"submit gray":"submit"} onClick={()=>{setAction("Login")}}>Login</div>
+        </div>
+      </div>
+    </>
   );
 }
 
 function LoginPage(){
+ const [isVisible, setIsVisible] = useState(false);
+ const [action, setAction] = useState("Login");
+  // Effect for component visibility (unrelated to fetching)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <div className="Login">
-      <p>Login page here</p>
-    </div>
+    <>
+      <nav className="navbar">
+        <Link to="/">
+          <img src={Logo} width={70} height={70} alt=''></img>
+        </Link>
+        <h1 className="main-title">Multi-Branch Library Management System</h1>
+        <div className="top-right-buttons">
+        </div>
+      </nav>
+      <div className='container'>
+        <div className="header">
+          <div className="text">{action}</div>
+          <div className="underline"></div>
+        </div>
+        <div className="inputs">
+            {action==="Login" ? null : <div className="input">
+            <img src={user_icon} width={38} height={23} alt="" />
+            <input type="text" placeholder="Name" />
+          </div>}
+
+          <div className="input">
+            <img src={email_icon} width={38} height={23} alt="" />
+            <input type="email" placeholder="Email" />
+          </div>
+          <div className="input">
+            <img src={password_icon} width={38} height={23} alt="" />
+            <input type="password" placeholder="Password" />
+          </div>
+        </div>
+        {action==="Sign Up" ? <div></div> : <div className="forgot-password">Lost Password? <span> Click Here! </span> </div> }
+        <div className="submit-container">
+          <div className={action==="Login"?"submit gray":"submit"} onClick={()=>{setAction("Sign Up")}}>Sign Up</div>
+          <div className={action==="Sign Up"?"submit gray":"submit"} onClick={()=>{setAction("Login")}}>Login</div>
+        </div>
+      </div>
+    </>
   );
 }
 
