@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useContext, createContext } from "react";
 import AdminDashboard from './AdminDashboard';
 import Logo from './assets/MBLS_Logo.png';
 import Main from './assets/Main_Library.png';
@@ -17,6 +18,8 @@ import user_icon from './assets/people.png';
 import password_icon from './assets/passai.png';
 import email_icon from './assets/emailai.png';
 import "./App.css";
+
+export const ThemeContext = createContext();
 
 function Book({ title, route }) {
   const navigate = useNavigate();
@@ -116,15 +119,10 @@ function Book({ title, route }) {
 }
 
 function Home() {
-  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+  const { theme, setTheme } = useContext(ThemeContext);
   const [isZooming, setIsZooming] = useState(false);
   const [zoomTransform, setZoomTransform] = useState('');
   const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-    localStorage.setItem("theme", theme);
-  }, [theme]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -200,12 +198,12 @@ function Home() {
 }
 
 function LibraryPage({ name }) {
+  const { theme, setTheme } = useContext(ThemeContext);
   const [isVisible, setIsVisible] = useState(false);
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Effect for component visibility (unrelated to fetching)
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(true);
@@ -306,7 +304,8 @@ function LibraryPage({ name }) {
   }
 
   return (
-    <div className="library-page" style={{padding: '20px'}}>
+    <div className="App">
+    <div className="library-page">
       <div className={`fade-in fade-delay-1 ${isVisible ? 'visible' : ''}`}>
         <nav className="navbar">
           <Link to="/">
@@ -314,6 +313,16 @@ function LibraryPage({ name }) {
           </Link>
           <h1 className="main-title">Multi-Branch Library Management System</h1>
           <div className="top-right-buttons">
+            <label className="switch">
+              <input
+                type="checkbox"
+                checked={theme === "dark"}
+                onChange={() =>
+                  setTheme(theme === "light" ? "dark" : "light")
+                }
+              />
+              <span className="slider"></span>
+            </label>
             <Link to="/SignUp">
               <button>Sign Up</button>
             </Link>
@@ -338,13 +347,15 @@ function LibraryPage({ name }) {
         </div>
       </div>
     </div>
+    </div>
   );
 }
 
 function SignUpPage(){
- const [isVisible, setIsVisible] = useState(false);
- const [action, setAction] = useState("Sign Up");
-  // Effect for component visibility (unrelated to fetching)
+  const { theme, setTheme } = useContext(ThemeContext);
+  const [isVisible, setIsVisible] = useState(false);
+  const [action, setAction] = useState("Sign Up");
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(true);
@@ -353,16 +364,28 @@ function SignUpPage(){
   }, []);
 
   return (
-    <>
+    <div className="App">
+    <div className="SignUp">
+      <div className={`fade-in fade-delay-1 ${isVisible ? 'visible' : ''}`}>
       <nav className="navbar">
         <Link to="/">
           <img src={Logo} width={70} height={70} alt=''></img>
         </Link>
         <h1 className="main-title">Multi-Branch Library Management System</h1>
         <div className="top-right-buttons">
+          <label className="switch">
+              <input
+                type="checkbox"
+                checked={theme === "dark"}
+                onChange={() =>
+                  setTheme(theme === "light" ? "dark" : "light")
+                }
+              />
+              <span className="slider"></span>
+            </label>
         </div>
       </nav>
-
+      <div className={`fade-in fade-delay-2 ${isVisible ? 'visible' : ''}`}>
       <div className='container'>
         <div className="header">
           <div className="text">{action}</div>
@@ -389,14 +412,18 @@ function SignUpPage(){
           <div className={action==="Sign Up"?"submit gray":"submit"} onClick={()=>{setAction("Login")}}>Login</div>
         </div>
       </div>
-    </>
+    </div>
+    </div>
+    </div>
+    </div>
   );
 }
 
 function LoginPage(){
- const [isVisible, setIsVisible] = useState(false);
- const [action, setAction] = useState("Login");
-  // Effect for component visibility (unrelated to fetching)
+  const { theme, setTheme } = useContext(ThemeContext);
+  const [isVisible, setIsVisible] = useState(false);
+  const [action, setAction] = useState("Login");
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(true);
@@ -405,18 +432,30 @@ function LoginPage(){
   }, []);
 
   return (
-    <>
+    <div className="App">
+      <div className={`fade-in fade-delay-1 ${isVisible ? 'visible' : ''}`}>
       <nav className="navbar">
         <Link to="/">
           <img src={Logo} width={70} height={70} alt=''></img>
         </Link>
         <h1 className="main-title">Multi-Branch Library Management System</h1>
         <div className="top-right-buttons">
+          <label className="switch">
+              <input
+                type="checkbox"
+                checked={theme === "dark"}
+                onChange={() =>
+                  setTheme(theme === "light" ? "dark" : "light")
+                }
+              />
+              <span className="slider"></span>
+            </label>
         </div>
       </nav>
       <Link to="/admin">
       <button>Admin</button>
       </Link>
+      <div className={`fade-in fade-delay-2 ${isVisible ? 'visible' : ''}`}>
       <div className='container'>
         <div className="header">
           <div className="text">{action}</div>
@@ -443,29 +482,39 @@ function LoginPage(){
           <div className={action==="Sign Up"?"submit gray":"submit"} onClick={()=>{setAction("Login")}}>Login</div>
         </div>
       </div>
-    </>
+      </div>
+      </div>
+    </div>
   );
 }
 
 export default function App() {
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/admin" element={<AdminDashboard />} />
-        <Route path="/SignUp" element={<SignUpPage name ="Sign-Up"/>} />
-        <Route path="/Login" element={<LoginPage name ="Login"/>} />
-        <Route path="/main" element={<LibraryPage name="Main Library" />} />
-        <Route path="/green" element={<LibraryPage name="Green Hills" />} />
-        <Route path="/donelson" element={<LibraryPage name="Donelson" />} />
-        <Route path="/hadley" element={<LibraryPage name="Hadley Park" />} />
-        <Route path="/edgehill" element={<LibraryPage name="Edgehill" />} />
-        <Route path="/bordeaux" element={<LibraryPage name="Bordeaux" />} />
-        <Route path="/inglewood" element={<LibraryPage name="Inglewood" />} />
-        <Route path="/richland" element={<LibraryPage name="Richland Park" />} />
-        <Route path="/hermitage" element={<LibraryPage name="Hermitage" />} />
-        <Route path="/thompson" element={<LibraryPage name="Thompson Lane" />} />
-      </Routes>
-    </Router>
+    <ThemeContext.Provider value={{ theme, setTheme }}>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/SignUp" element={<SignUpPage name="Sign-Up"/>} />
+          <Route path="/Login" element={<LoginPage name="Login"/>} />
+          <Route path="/main" element={<LibraryPage name="Main Library"/>} />
+          <Route path="/green" element={<LibraryPage name="Green Hills"/>} />
+          <Route path="/donelson" element={<LibraryPage name="Donelson"/>} />
+          <Route path="/hadley" element={<LibraryPage name="Hadley Park"/>} />
+          <Route path="/edgehill" element={<LibraryPage name="Edgehill"/>} />
+          <Route path="/bordeaux" element={<LibraryPage name="Bordeaux"/>} />
+          <Route path="/inglewood" element={<LibraryPage name="Inglewood"/>} />
+          <Route path="/richland" element={<LibraryPage name="Richland Park"/>} />
+          <Route path="/hermitage" element={<LibraryPage name="Hermitage"/>} />
+          <Route path="/thompson" element={<LibraryPage name="Thompson Lane"/>} />
+        </Routes>
+      </Router>
+    </ThemeContext.Provider>
   );
 }

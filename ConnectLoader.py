@@ -9,8 +9,6 @@ db_config = {
     "database": "project"
 }
 
-# --- 1. Configuration for All Tables ---
-# NOTE: The LIBRARY_MEMBER table MUST be loaded successfully before BOOK to avoid Error 1452.
 TABLE_CONFIG = [
     {
         "table_name": "LIBRARY_BRANCH",
@@ -47,11 +45,10 @@ TABLE_CONFIG = [
 ]
 
 
-# --- 2. Main Loading Function ---
+
 def load_all_csv_data(connection):
     cursor = connection.cursor()
 
-    # Define lists for column type handling based on past errors
     INT_FK_COLUMNS = [
         "Account_Id", "Balance_Due", "Books_Checked", "Age", "Member_Local_Branch",
         "LIBRARY_EMPLOYEEId", "Employee_Library", "ISBN", "Page_Count", "Copies_Owned",
@@ -66,17 +63,14 @@ def load_all_csv_data(connection):
         path = config["file_path"]
         cols = config["columns"]
 
-        # MySQL uses %s as the placeholder for values
         placeholders = ', '.join(['%s'] * len(cols))
         insert_query = f"INSERT INTO {table} ({', '.join(cols)}) VALUES ({placeholders})"
 
         print(f"\n--- Attempting to load {table} from {path} ---")
 
         try:
-            # Use 'utf-8' but be mindful of Windows encoding issues; latin-1 is a fallback
             with open(path, 'r', newline='', encoding='utf-8') as file:
                 reader = csv.reader(file)
-                # Assuming your CSV files have a header row
                 next(reader)
 
                 data_to_insert = []
@@ -92,96 +86,84 @@ def load_all_csv_data(connection):
                         col_name = cols[i]
                         clean_value = value.strip() if value is not None else ''
 
-                        # 1. Handle Empty/NULL/FK Integer columns (Fixes 1366, helps with 1452)
                         if col_name in INT_FK_COLUMNS:
                             if not clean_value or clean_value.upper() == 'NULL':
-                                processed_row.append(None)  # Inserts SQL NULL
+                                processed_row.append(None)  
                             else:
-                                processed_row.append(clean_value)  # Pass as string, MySQL converts to int/bigint
+                                processed_row.append(clean_value)  
 
-                        # 2. Handle Date_Published as YEAR (BOOK table) (Fixes 1265)
                         elif col_name in YEAR_COLUMNS:
                             year_to_insert = None
                             clean_val_no_space = clean_value.replace(' ', '')
 
                             if clean_value and "####" not in clean_value:
                                 try:
-                                    # Try M/D/YYYY format (e.g., '6/8/1949')
                                     date_obj = datetime.strptime(clean_val_no_space, '%m/%d/%Y').date()
                                     year_to_insert = date_obj.year
                                 except ValueError:
                                     try:
-                                        # Try YYYY-M-D format (e.g., '1851-10-1')
                                         date_obj = datetime.strptime(clean_val_no_space, '%Y-%m-%d').date()
                                         year_to_insert = date_obj.year
                                     except ValueError:
                                         try:
-                                            # Try M/D/YY format (e.g., '6/8/49')
                                             date_obj = datetime.strptime(clean_val_no_space, '%m/%d/%y').date()
                                             year_to_insert = date_obj.year
                                         except ValueError:
                                             try:
-                                                # Fallback: try parsing as just an integer year (Fixes 1264)
                                                 year_to_insert = int(clean_val_no_space)
                                             except ValueError:
-                                                pass  # Keep year_to_insert as None
+                                                pass  
 
                             processed_row.append(year_to_insert)
 
-                        # 3. Handle standard DATE fields (Hire_Date, Estimated_Time) (Fixes 1048)
                         elif col_name in DATE_COLUMNS and clean_value:
                             try:
                                 processed_row.append(datetime.strptime(clean_value.replace(' ', ''), '%Y-%m-%d').date())
                             except ValueError:
-                                processed_row.append(None)  # Will fail if column is NOT NULL
+                                processed_row.append(None)  
 
-                        # 4. Handle BOOLEAN column (IsPaperBack)
                         elif col_name == "IsPaperBack" and clean_value:
                             processed_row.append(1 if clean_value.upper() in ('TRUE', '1', 'T') else 0)
 
-                        # 5. Default: Use the value as is (strings)
                         else:
                             processed_row.append(clean_value if clean_value else None)
 
                     data_to_insert.append(tuple(processed_row))
 
                 if data_to_insert:
-                    # Use executemany for high-performance bulk insert
                     cursor.executemany(insert_query, data_to_insert)
-                    connection.commit()  # Commit changes after successful insertion
-                    print(f"✅ Successfully inserted {len(data_to_insert)} rows into {table}.")
+                    connection.commit()  
+                    print(f"Successfully inserted {len(data_to_insert)} rows into {table}.")
                 else:
-                    print(f"⚠️ {path} is empty. Skipping insertion.")
+                    print(f"{path} is empty. Skipping insertion.")
 
         except FileNotFoundError:
-            print(f"❌ Error: CSV file not found at {path}. Please check the file path.")
+            print(f"Error: CSV file not found at {path}. Please check the file path.")
         except mysql.connector.Error as err:
-            connection.rollback()  # Rollback in case of DB error
-            print(f"❌ MySQL Error during insertion into {table}: {err}")
+            connection.rollback() 
+            print(f"MySQL Error during insertion into {table}: {err}")
         except Exception as e:
-            print(f"❌ An unexpected error occurred while processing {path}: {e}")
+            print(f"An unexpected error occurred while processing {path}: {e}")
 
     cursor.close()
 
-
-# --- 3. Main Execution Block ---
 connection = None
 try:
     # Establish the connection
     connection = mysql.connector.connect(**db_config)
 
     if connection.is_connected():
-        print("✅ Successfully connected to the database. Starting data load...")
+        print("Successfully connected to the database. Starting data load...")
         # Call the loading function
         load_all_csv_data(connection)
     else:
-        print("❌ Failed to connect to the database.")
+        print("Failed to connect to the database.")
 
 except mysql.connector.Error as e:
-    print(f"❌ Error while connecting to MySQL: {e}")
+    print(f"Error while connecting to MySQL: {e}")
 
 finally:
-    # Always close the connection
+    # Close the connection
     if connection is not None and connection.is_connected():
         connection.close()
         print("\nMySQL connection is closed.")
