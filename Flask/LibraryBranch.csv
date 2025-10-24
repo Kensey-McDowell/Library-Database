@@ -1,0 +1,11 @@
+﻿Name,Address,City,Phone_Number,Email_Address,Num_Member,LIBRARY_BRANCHId
+Main Library,615 Church St,Nashville,8625800,main@npl.org,25000,1
+Green Hills,3701 Benham Ave,Nashville,8625863,greenhills@npl.org,15000,2
+Donelson,2714 Old Lebanon Pk,Nashville,8625859,donelson@npl.org,12000,3
+Hadley Park,1039 28th Ave N,Nashville,8625865,hadleypark@npl.org,8000,4
+Edgehill,1409 12th Ave S,Nashville,8625861,edgehill@npl.org,9500,5
+Bordeaux,4000 Clarksville Pk,Nashville,8625856,bordeaux@npl.org,7500,6
+Inglewood,4312 Gallatin Pk,Nashville,8625866,inglewood@npl.org,11000,7
+Richland Park,4711 Charlotte Pk,Nashville,8625870,richlandpk@npl.org,10500,8
+Hermitage,3700 James Kay Ln,Nashville,8803951,hermitage@npl.org,9000,9
+Thompson Lane,3800 Murfreesboro Pk,Nashville,8625873,thompsonln@npl.org,13000,10

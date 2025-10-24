@@ -1,0 +1,58 @@
+﻿Name,Account_Id,Balance_Due,Books_Checked,Age,Notes,Member_Local_Branch
+Alex Smith,1001,0,2,28,Frequent sci-fi borrower.,1
+Brenda Jones,1002,5,1,45,Late return history.,2
+Charlie Brown,1003,0,3,12,Loves fantasy and graphic novels.,3
+Diana Prince,1004,0,0,35,"New member, no checkouts yet.",4
+Ethan Hunt,1005,0,1,50,Checks out non-fiction only.,5
+Fiona Glenanne,1006,10,2,22,Lost book fine.,6
+Grace Hopper,1007,0,1,60,Loves history books.,7
+Harry Potter,1008,0,3,14,Huge fantasy reader.,8
+Isabella Swan,1009,0,0,25,Checks out popular fiction.,9
+Jack Sparrow,1010,2,1,40,Small fine for damaged book.,10
+Katherine Johnson,1011,0,2,80,Loves biographies and memoirs.,1
+Leonardo da Vinci,1012,0,1,30,Likes art and science books.,2
+Marie Curie,1013,0,4,33,Heavy researcher.,3
+Neil Armstrong,1014,0,1,65,Space and exploration books.,4
+Oprah Winfrey,1015,5,2,71,Book club organizer. Has a small fine.,5
+Peter Quill,1016,0,1,38,Loves classic rock and space opera.,6
+Quentin Tarantino,1017,0,3,42,Checks out film and drama books.,7
+Rose Tyler,1018,0,0,19,New to area. Looking for YA.,8
+Steve Rogers,1019,0,2,95,Historical fiction and war non-fiction.,9
+Tina Fey,1020,0,1,55,Loves comedy and essays.,10
+Ursula K. Le Guin,1021,0,3,52,Sci-fi and poetry enthusiast.,1
+Vincent Van Gogh,1022,0,1,44,Art history and painting techniques.,2
+Winston Churchill,1023,0,2,78,Political biographies.,3
+Xavier Woods,1024,0,1,36,Gaming and tech books.,4
+Yoda,1025,0,0,900,Reads philosophy and ancient texts.,5
+Zelda Fitzgerald,1026,0,2,26,Modernist literature.,6
+Alan Turing,1027,0,1,39,Computer science and math.,7
+Bill Gates,1028,0,1,67,Global health and climate.,8
+Chuck Palahniuk,1029,0,3,58,Dark humor and fiction.,9
+Dorothy Gale,1030,0,1,10,Childrens books and adventure.,10
+Elsa,1031,0,0,21,Fantasy romance.,1
+Frodo Baggins,1032,0,2,50,Fantasy maps and lore.,2
+Geralt of Rivia,1033,0,1,90,Gothic fiction and folklore.,3
+Hermione Granger,1034,0,4,16,Educational and reference books.,4
+Indiana Jones,1035,0,2,48,Archaeology and travel.,5
+Jane Eyre,1036,0,1,30,Victorian literature.,6
+Katniss Everdeen,1037,0,3,17,Dystopian fiction.,7
+Luke Skywalker,1038,0,1,32,Space battles and philosophy.,8
+Mulan,1039,0,2,24,History and martial arts.,9
+Ned Flanders,1040,0,1,40,Religious and wholesome fiction.,10
+Ozymandias,1041,0,3,55,Mythology and classics.,1
+Pippi Longstocking,1042,0,1,9,Humor and picture books.,2
+Rapunzel,1043,0,0,18,Fairy tales and poetry.,3
+Sherlock Holmes,1044,0,2,45,Mystery and forensic science.,4
+Tyrion Lannister,1045,0,4,38,"Politics, history, and wine.",5
+Voldemort,1046,0,1,70,Dark arts and history.,6
+Wonder Woman,1047,0,2,50,Greek mythology and heroism.,7
+Yennefer of Vengerberg,1048,0,3,80,"Magic, spells, and drama.",8
+Zeus,1049,0,1,1000,Ancient history and leadership.,9
+Anya Forger,1050,0,0,6,Picture books and simple stories.,10
+Bruce Wayne,1051,0,2,40,Criminology and detective novels.,1
+Cinderella,1052,0,1,28,Romance and self-help.,2
+Dracula,1053,0,3,500,Vampire lore and gothic horror.,3
+Elizabeth Bennet,1054,0,1,22,Classic romance.,4
+Fox Mulder,1055,0,2,43,UFOs and conspiracy theories.,5
+George Costanza,1056,0,1,55,Books on self-improvement and luck.,6
+Hannibal Lecter,1057,0,3,60,Fine cuisine and psychology.,7
