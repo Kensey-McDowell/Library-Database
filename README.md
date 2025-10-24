@@ -14,7 +14,22 @@
    - Role based access:
         - Adminsitrative roles can add or remove books while standard library card holders can search and view their balances.
    - User Profiles:
-        - Individual user profiles to control and handle user reservations and fees. 
+        - Individual user profiles to control and handle user reservations and fees.
+    
+**Installation**:
+ - Download all files
+ - Ensure you have the current version of Node.js (25.0.0)
+ - Install MySQL
+ - Install an IDE like Pycharm 
+   
+**How to run**:
+ - Set up database and tables in MySQL using schema.sql
+ - Using PyCharm (Or an equivalent IDE) you will run the ConnectLoader.py program
+ - Before running you need to set the filepaths for each table with its respective csv file (ex. "C:\\Users\\JohnDoe\\Documents)
+ - Also ensure you change the db_config options to your MySQL server
+ - Ensure you're within the my-library-app of the directory 
+ - in the terminal run the command npm start
+ - The localport will open within your default browser to use
 
 **Credits**:
  - **Contributors**:
