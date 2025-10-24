@@ -27,6 +27,7 @@
  - Using PyCharm (Or an equivalent IDE) you will run the ConnectLoader.py program
  - Before running you need to set the filepaths for each table with its respective csv file (ex. "C:\\Users\\JohnDoe\\Documents)
  - Also ensure you change the db_config options to your MySQL server
+ - Run connect.py to connect the data to the frontend
  - Ensure you're within the my-library-app of the directory 
  - in the terminal run the command npm start
  - The localport will open within your default browser to use
