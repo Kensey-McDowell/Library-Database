@@ -400,6 +400,12 @@
     cursor: pointer;
 }
 
+.submit-only-container {
+    display: flex;
+    justify-content: center; /* center horizontally */
+    margin-top: 40px; /* space above */
+}
+
 .gray{
     background: var(--sceondary-accent);
     color: #1d1e21;
