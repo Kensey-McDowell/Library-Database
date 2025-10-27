@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Logo from './assets/MBLS_Logo.png';
-import "./AdminDashboard.css"; // you can later move dashboard-specific styles to AdminDashboard.css
+import "./AdminDashboard.css"; 
 
 export default function AdminDashboard() {
   const [isVisible, setIsVisible] = useState(false);
@@ -22,7 +22,7 @@ export default function AdminDashboard() {
         setStats(data);
       } catch (error) {
         console.error(error);
-        setStats({ books: 235, users: 58, branches: 10 }); // fallback example data
+        setStats({ books: 235, users: 58, branches: 10 }); 
       } finally {
         setLoading(false);
       }
@@ -41,15 +41,15 @@ export default function AdminDashboard() {
           </Link>
           <h1 className="main-title">Library Admin Dashboard</h1>
           <div className="top-right-buttons">
-            <Link to="/">
-              <button>Home</button>
-            </Link>
+            <label className="switch">
+              <span className="slider"></span>
+            </label>
             <Link to="/Login">
               <button>Logout</button>
             </Link>
           </div>
         </nav>
-
+        <div className='AdminShelf'>
         {/* Dashboard Content */}
         <div className={`dashboard-content fade-in fade-delay-2 ${isVisible ? 'visible' : ''}`}>
           <h2>Welcome, Admin</h2>
@@ -90,6 +90,7 @@ export default function AdminDashboard() {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

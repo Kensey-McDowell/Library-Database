@@ -44,7 +44,7 @@ function Book({ title, route }) {
     clone.style.backfaceVisibility = "hidden";
     clone.style.overflow = "hidden";
     clone.style.transition = "transform 1s ease-in-out";
-    clone.style.visibility = "visible"; // front cover shows immediately
+    clone.style.visibility = "visible"; // front cover shows 
 
     // Hide inner pages/back initially
     const clonePages = clone.querySelector(".pages");
@@ -68,21 +68,18 @@ function Book({ title, route }) {
     const translateX = windowCenterX - bookCenterX;
     const translateY = windowCenterY - bookCenterY;
 
-    // Step 1: reveal pages/back cover & start opening the front
     setTimeout(() => {
       if (clonePages) clonePages.style.visibility = "visible";
       if (cloneBack) cloneBack.style.visibility = "visible";
 
-      clone.classList.add("open"); // front cover rotates smoothly via CSS
+      clone.classList.add("open"); 
     }, 50);
 
-    // Step 2: zoom/translate clone after cover starts opening
     setTimeout(() => {
-      const scale = 16; // adjust as needed to fill screen
+      const scale = 16; 
       clone.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale}) perspective(1000px) rotateY(-15deg)`;
-    }, 600); // wait a bit for cover to start opening
+    }, 600); 
 
-    // Step 3: fade to white overlay after zoom
     setTimeout(() => {
       const overlay = document.createElement("div");
       overlay.style.position = "fixed";
@@ -102,7 +99,7 @@ function Book({ title, route }) {
         clone.remove();
         overlay.remove();
         document.body.style.overflow = "";
-        navigate(route); // navigate after everything is cleaned up
+        navigate(route); 
       }, 500); // fade duration
     }, 1500);
   };
@@ -211,7 +208,6 @@ function LibraryPage({ name }) {
     return () => clearTimeout(timer);
   }, []);
 
-  // Effect for API Data Fetching
   useEffect(() => {
     const fetchBookData = async () => {
         const API_URL = 'http://localhost:5000/api/books';
@@ -225,7 +221,6 @@ function LibraryPage({ name }) {
 
             const data = await response.json();
 
-            // Success Check (Prints to Browser Console - F12)
             console.log(`--- API Connection Successful! (Branch: ${name}) ---`);
             console.log("Data Received from Flask Backend:", data);
 
@@ -240,7 +235,7 @@ function LibraryPage({ name }) {
     };
 
     fetchBookData();
-  }, [name]); // Re-run fetch if the branch name changes
+  }, [name]); 
 
   let imageElement = null;
   if (name === 'Main Library') {
@@ -293,7 +288,6 @@ function LibraryPage({ name }) {
         <div style={{ maxHeight: '200px', overflowY: 'auto', marginTop: '10px', border: '1px solid #ccc', padding: '5px' }}>
             {books.slice(0, 5).map((book, index) => (
                 <div key={index} style={{ fontSize: '12px', borderBottom: '1px dotted #ccc', padding: '3px 0' }}>
-                    {/* FIX: Use Title and Author_Firstname + Author_Lastname */}
                     **{book.Title}** by {book.Author_Firstname} {book.Author_Lastname} (ISBN: {book.ISBN})
                 </div>
             ))}

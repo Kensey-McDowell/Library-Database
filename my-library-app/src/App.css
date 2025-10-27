@@ -1,6 +1,5 @@
-/* Layout */
 :root {
-  /* Light Mode (your current style) */
+   /* Light Mode */
   --bg-color: white;
   --text-color: white;
   --accent-color: lightsteelblue;
@@ -18,7 +17,7 @@
 [data-theme="dark"] {
   --bg-color: #2f2f36;
   --text-color: #f1efe3;
-  --accent-color: #6a7ca3; /* muted steel blue */
+  --accent-color: #6a7ca3; 
   --sceondary-accent: #798db8;
   --secondary-bg: #2a2a33;
   --hover-color: #34343f;
@@ -215,7 +214,7 @@
   background: linear-gradient(90deg, var(--shelf-top), var(--hover-color) );
   border-radius: 5px;
   box-shadow: 0 10px 20px var(--shadow-color);
-  margin-top: 10px; /* overlaps under books */
+  margin-top: 10px; 
   z-index: 1;
   position: relative;
 }
@@ -284,9 +283,9 @@
   width: 1400px;
   height: 400px;
   border-radius: 10px;
-  background: linear-gradient(90deg, gray 0%, var(--secondary-bg) 100%);
+  background: linear-gradient(90deg, var(--left-gradient) 0%, var(--secondary-bg) 100%);
   color: white;
-  border: 4px solid rgb(116, 116, 116);
+  border: 4px solid var(--border-color);
   box-shadow: 0 4px 8px var(--shadow-color);
   padding: 20px;
   transition: transform 0.4s ease, box-shadow 0.4s ease;
@@ -402,8 +401,8 @@
 
 .submit-only-container {
     display: flex;
-    justify-content: center; /* center horizontally */
-    margin-top: 40px; /* space above */
+    justify-content: center; 
+    margin: 20px auto;
 }
 
 .gray{
@@ -433,7 +432,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: var(--border-color); /* gray in light mode */
+  background-color: var(--border-color); 
   transition: 0.4s;
   border-radius: 28px;
 }
@@ -446,14 +445,14 @@
   width: 22px;
   left: 3px;
   bottom: 3px;
-  background-color: var(--bg-color); /* circle color */
+  background-color: var(--bg-color); 
   transition: 0.4s;
   border-radius: 50%;
 }
 
 /* Checked state */
 input:checked + .slider {
-  background-color: var(--shadow-color); /* color when switched */
+  background-color: var(--shadow-color); 
 }
 
 input:checked + .slider:before {
