@@ -351,73 +351,181 @@ function LibraryPage({ name }) {
   );
 }
 
-function SignUpPage(){
+function SignUpPage() {
   const { theme, setTheme } = useContext(ThemeContext);
   const [isVisible, setIsVisible] = useState(false);
+
+
   const [action, setAction] = useState("Sign Up");
 
+
+  const [formData, setFormData] = useState({
+    MemberName: "",
+    Email: "",
+    MemberPass: ""
+  });
+
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsVisible(true);
-    }, 300);
+    const timer = setTimeout(() => setIsVisible(true), 300);
     return () => clearTimeout(timer);
   }, []);
 
-  return (
-    <div className="App">
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setMessage("");
+    setLoading(true);
+
+    try {
+      const response = await fetch("http://localhost:5000/api/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setMessage("User registered successfully.");
+        setFormData({ MemberName: "", Email: "", MemberPass: "" });
+      } else {
+        setMessage(result.error || "Signup failed.");
+      }
+    } catch (error) {
+      console.error("Signup error:", error);
+      setMessage("Could not connect to backend. Make sure Flask is running.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+return (
+  <div className="App">
     <div className="SignUp">
-      <div className={`fade-in fade-delay-1 ${isVisible ? 'visible' : ''}`}>
-      <nav className="navbar">
-        <Link to="/">
-          <img src={Logo} width={70} height={70} alt=''></img>
-        </Link>
-        <h1 className="main-title">Multi-Branch Library Management System</h1>
-        <div className="top-right-buttons">
-          <label className="switch">
+      <div className={`fade-in fade-delay-1 ${isVisible ? "visible" : ""}`}>
+        <nav className="navbar">
+          <Link to="/">
+            <img src={Logo} width={70} height={70} alt="" />
+          </Link>
+          <h1 className="main-title">
+            Multi-Branch Library Management System
+          </h1>
+          <div className="top-right-buttons">
+            <label className="switch">
               <input
                 type="checkbox"
                 checked={theme === "dark"}
-                onChange={() =>
-                  setTheme(theme === "light" ? "dark" : "light")
-                }
+                onChange={() => setTheme(theme === "light" ? "dark" : "light")}
               />
               <span className="slider"></span>
             </label>
-        </div>
-      </nav>
-      <div className={`fade-in fade-delay-2 ${isVisible ? 'visible' : ''}`}>
-      <div className='container'>
-        <div className="header">
-          <div className="text">{action}</div>
-          <div className="underline"></div>
-        </div>
-        <div className="inputs">
-            {action==="Login" ? null : <div className="input">
-            <img src={user_icon} width={38} height={23} alt="" />
-            <input type="text" placeholder="Name" />
-          </div>}
+          </div>
+        </nav>
 
-          <div className="input">
-            <img src={email_icon} width={38} height={23} alt="" />
-            <input type="email" placeholder="Email" />
-          </div>
-          <div className="input">
-            <img src={password_icon} width={38} height={23} alt="" />
-            <input type="password" placeholder="Password" />
-          </div>
-        </div>
-        {action==="Sign Up" ? <div></div> : <div className="forgot-password">Lost Password? <span> Click Here! </span> </div> }
-        <div className="submit-container">
-          <div className={action==="Login"?"submit gray":"submit"} onClick={()=>{setAction("Sign Up")}}>Sign Up</div>
-          <div className={action==="Sign Up"?"submit gray":"submit"} onClick={()=>{setAction("Login")}}>Login</div>
+        <div className={`fade-in fade-delay-2 ${isVisible ? "visible" : ""}`}>
+          <form className="container" onSubmit={handleSubmit}>
+            <div className="header">
+              <div className="text">{action}</div>
+              <div className="underline"></div>
+            </div>
+
+            <div className="inputs">
+              {action === "Login" ? null : (
+                <div className="input">
+                  <img src={user_icon} width={38} height={23} alt="" />
+                  <input
+                    type="text"
+                    name="MemberName"
+                    placeholder="Name"
+                    value={formData.MemberName}
+                    onChange={handleChange}
+                    required={action === "Sign Up"}
+                  />
+                </div>
+              )}
+
+              <div className="input">
+                <img src={email_icon} width={38} height={23} alt="" />
+                <input
+                  type="email"
+                  name="Email"
+                  placeholder="Email"
+                  value={formData.Email}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              <div className="input">
+                <img src={password_icon} width={38} height={23} alt="" />
+                <input
+                  type="password"
+                  name="MemberPass"
+                  placeholder="Password"
+                  value={formData.MemberPass}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
+
+            {action === "Login" ? (
+              <div className="forgot-password">
+                Lost Password? <span>Click Here</span>
+              </div>
+            ) : null}
+
+            <div className="submit-container">
+              <div
+                className={action === "Login" ? "submit gray" : "submit"}
+                onClick={() => setAction("Sign Up")}
+              >
+                Sign Up
+              </div>
+
+              <div
+                className={action === "Sign Up" ? "submit gray" : "submit"}
+                onClick={() =>
+                  action === "Login" ? navigate("/Login") : setAction("Login")
+                }
+              >
+                Login
+              </div>
+            </div>
+
+            {action === "Sign Up" && (
+              <div className="submit-only-container">
+                <button
+                  type="submit"
+                  className="submit"
+                  disabled={loading}
+                >
+                  {loading ? "Registering..." : "Submit"}
+                </button>
+              </div>
+            )}
+
+            {message && (
+              <p style={{ color: "white", marginTop: "10px" }}>{message}</p>
+            )}
+          </form>
         </div>
       </div>
     </div>
-    </div>
-    </div>
-    </div>
-  );
+  </div>
+);
 }
+
 
 function LoginPage(){
   const { theme, setTheme } = useContext(ThemeContext);
