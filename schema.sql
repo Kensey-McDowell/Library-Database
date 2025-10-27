@@ -96,3 +96,11 @@ CREATE TABLE REVIEW
 	
 
 );
+
+CREATE TABLE LOGIN
+    (
+		MemberName VARCHAR(100)		NOT NULL,
+        Email VARCHAR(100)			NOT NULL UNIQUE,
+		MemberPass VARCHAR(300)		NOT NULL
+    
+    );
