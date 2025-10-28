@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Logo from './assets/MBLS_Logo.png';
-import "./AdminDashboard.css"; 
+import "./AdminDashboard.css";
 
 export default function AdminDashboard() {
   const [isVisible, setIsVisible] = useState(false);
@@ -22,7 +22,7 @@ export default function AdminDashboard() {
         setStats(data);
       } catch (error) {
         console.error(error);
-        setStats({ books: 235, users: 58, branches: 10 }); 
+        setStats({ books: 235, users: 58, branches: 10 });
       } finally {
         setLoading(false);
       }
@@ -76,7 +76,11 @@ export default function AdminDashboard() {
             <div className="action-card">
               <h4>Manage Books</h4>
               <p>View, add, or remove books from the catalog.</p>
-              <button onClick={() => alert("Go to book management!")}>Open</button>
+
+              <Link to="/bookadd">
+                  <button>Add Book</button>
+              </Link>
+
             </div>
             <div className="action-card">
               <h4>Manage Users</h4>
