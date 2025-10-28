@@ -1,0 +1,74 @@
+/* Styling for the overall form container and page */
+.add-book-page {
+  max-width: 500px; /* Limits the form width */
+  margin: 40px auto; /* Centers the form on the page */
+  padding: 30px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+}
+
+/* Styling for the form title */
+.add-book-page h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #333;
+}
+
+/* Styling for each field wrapper (your <div> elements) */
+.add-book-page form > div,
+.add-book-page form > label:not([for="IsPaperBack"]) {
+  /* This ensures all fields stack vertically */
+  margin-bottom: 15px;
+  display: block;
+}
+
+/* Styling for the labels */
+.add-book-page label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block; /* Ensures the label is above the input */
+  color: #555;
+}
+
+/* Styling for all text/number inputs */
+.add-book-page input:not([type="checkbox"]),
+.add-book-page input[type="text"],
+.add-book-page input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box; /* Includes padding/border in width */
+  transition: border-color 0.3s;
+}
+
+.add-book-page input:focus {
+  border-color: #007bff; /* Highlight on focus */
+  outline: none;
+}
+
+/* Special styling for the checkbox area to keep it on one line */
+.add-book-page input[type="checkbox"] {
+  width: auto; /* Overrides the 100% width above */
+  margin-right: 10px;
+}
+
+/* Styling for the submit button */
+.add-book-page button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+  transition: background-color 0.3s;
+}
+
+.add-book-page button[type="submit"]:hover {
+  background-color: #89CFF0;
+}
