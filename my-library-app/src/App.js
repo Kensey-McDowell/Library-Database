@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useContext, createContext } from "react";
 import AdminDashboard from './AdminDashboard';
+import AddBookPage from './bookadd';
 import Logo from './assets/MBLS_Logo.png';
 import Main from './assets/Main_Library.png';
 import Hadley from './assets/Hadley_Park.png';
@@ -44,7 +45,7 @@ function Book({ title, route }) {
     clone.style.backfaceVisibility = "hidden";
     clone.style.overflow = "hidden";
     clone.style.transition = "transform 1s ease-in-out";
-    clone.style.visibility = "visible"; // front cover shows 
+    clone.style.visibility = "visible"; // front cover shows
 
     // Hide inner pages/back initially
     const clonePages = clone.querySelector(".pages");
@@ -72,13 +73,13 @@ function Book({ title, route }) {
       if (clonePages) clonePages.style.visibility = "visible";
       if (cloneBack) cloneBack.style.visibility = "visible";
 
-      clone.classList.add("open"); 
+      clone.classList.add("open");
     }, 50);
 
     setTimeout(() => {
-      const scale = 16; 
+      const scale = 16;
       clone.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale}) perspective(1000px) rotateY(-15deg)`;
-    }, 600); 
+    }, 600);
 
     setTimeout(() => {
       const overlay = document.createElement("div");
@@ -99,7 +100,7 @@ function Book({ title, route }) {
         clone.remove();
         overlay.remove();
         document.body.style.overflow = "";
-        navigate(route); 
+        navigate(route);
       }, 500); // fade duration
     }, 1500);
   };
@@ -235,7 +236,7 @@ function LibraryPage({ name }) {
     };
 
     fetchBookData();
-  }, [name]); 
+  }, [name]);
 
   let imageElement = null;
   if (name === 'Main Library') {
@@ -603,6 +604,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/bookadd" element={<AddBookPage />} />
           <Route path="/SignUp" element={<SignUpPage name="Sign-Up"/>} />
           <Route path="/Login" element={<LoginPage name="Login"/>} />
           <Route path="/main" element={<LibraryPage name="Main Library"/>} />
