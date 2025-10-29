@@ -28,12 +28,19 @@
   --shadow-color: rgba(0, 0, 0, 0.6);
 }
 
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color); /* This should match your theme */
+}
+
 .App {
   text-align: center;
   background-color: var(--bg-color);
   color: var(--text-color);
   min-height: 100vh;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Georgia', serif;
 }
 
 .navbar {
@@ -299,7 +306,7 @@
     background-color: var(--left-gradient); 
     margin: 0; 
     padding: 0;
-    font-family: Arial, sans-serif; 
+    font-family: 'Georgia', serif;
 }
 
 

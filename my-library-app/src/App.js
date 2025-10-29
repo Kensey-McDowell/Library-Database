@@ -335,7 +335,9 @@ function LibraryPage({ name }) {
               <p className={`fade-in fade-delay-4 ${isVisible ? 'visible' : ''}`}>
                 Welcome to the {name} branch!
               </p>
+              <p className={`fade-in fade-delay-5 ${isVisible ? 'visible' : ''}`}>
               {catalogContent}
+              </p>
             </div>
           </div>
           </div>

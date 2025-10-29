@@ -1,9 +1,13 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useContext } from "react";
 import Logo from './assets/MBLS_Logo.png';
+import './App.css';
 import "./AdminDashboard.css";
+import { ThemeContext } from './App';
 
 export default function AdminDashboard() {
+  const { theme, setTheme } = useContext(ThemeContext);
   const [isVisible, setIsVisible] = useState(false);
   const [stats, setStats] = useState({ books: 0, users: 0, branches: 0 });
   const [loading, setLoading] = useState(true);
@@ -41,7 +45,13 @@ export default function AdminDashboard() {
           </Link>
           <h1 className="main-title">Library Admin Dashboard</h1>
           <div className="top-right-buttons">
-            <label className="switch">
+            <label className="switch"><input
+              type="checkbox"
+              checked={theme === "dark"}
+              onChange={() =>
+                setTheme(theme === "light" ? "dark" : "light")
+              }
+            />
               <span className="slider"></span>
             </label>
             <Link to="/Login">
@@ -49,9 +59,11 @@ export default function AdminDashboard() {
             </Link>
           </div>
         </nav>
+        <div className={`fade-in fade-delay-2 ${isVisible ? 'visible' : ''}`}>
         <div className='AdminShelf'>
         {/* Dashboard Content */}
-        <div className={`dashboard-content fade-in fade-delay-2 ${isVisible ? 'visible' : ''}`}>
+        <div className={`fade-in fade-delay-3 ${isVisible ? 'visible' : ''}`}>
+        <div className= 'dashboard-content'>
           <h2>Welcome, Admin</h2>
           {loading ? (
             <p>Loading statistics...</p>
@@ -76,11 +88,9 @@ export default function AdminDashboard() {
             <div className="action-card">
               <h4>Manage Books</h4>
               <p>View, add, or remove books from the catalog.</p>
-
               <Link to="/bookadd">
                   <button>Add Book</button>
               </Link>
-
             </div>
             <div className="action-card">
               <h4>Manage Users</h4>
@@ -96,6 +106,8 @@ export default function AdminDashboard() {
         </div>
       </div>
       </div>
+      </div>
+    </div>
     </div>
   );
 }
