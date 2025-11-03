@@ -21,8 +21,8 @@ export default function AddBookPage() {
   const [formData, setFormData] = useState({
     ISBN: "",
     Title: "",
-    Author_Last_Name: "",
-    Author_First_Name: "",
+    Author_Lastname: "",
+    Author_Firstname: "",
     Date_Published: "",
     Publisher: "",
     IsPaperBack: false,

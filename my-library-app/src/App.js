@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useContext, createContext } from "react";
 import AdminDashboard from './AdminDashboard';
 import AddBookPage from './bookadd';
+import BookSearchPage from './BookSearch.jsx'
 import Logo from './assets/MBLS_Logo.png';
 import Main from './assets/Main_Library.png';
 import Hadley from './assets/Hadley_Park.png';
@@ -165,6 +166,18 @@ function Home() {
           <div className={`fade-in fade-delay-4 ${isVisible ? 'visible' : ''}`}>
           <p>Please begin by selecting a library to browse it's catalog.</p>
           </div>
+
+          <div className={`fade-in fade-delay-4 ${isVisible ? 'visible' : ''}`}>
+                <Link to ="/search">
+                    <button
+                        type = "button"
+                        className = "search-launch-button"
+                        >
+                        Search books
+                    </button>
+                </Link>
+          </div>
+
           <div className={`fade-in fade-delay-5 ${isVisible ? 'visible' : ''}`}>
           <div className="shelf-wrapper">
             <div className="book-row">
@@ -607,6 +620,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/bookadd" element={<AddBookPage />} />
+          <Route path="/search" element={<BookSearchPage />} />
           <Route path="/SignUp" element={<SignUpPage name="Sign-Up"/>} />
           <Route path="/Login" element={<LoginPage name="Login"/>} />
           <Route path="/main" element={<LibraryPage name="Main Library"/>} />
