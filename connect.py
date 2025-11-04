@@ -23,19 +23,46 @@ def get_db_connection():
         print(f"Error connecting to MySQL: {e}")
         return None
 
+
 @app.route('/api/books', methods=['GET'])
 def get_books_api():
+    print("--- 1. /api/books ROUTE HIT ---")
     books_list = []
     conn = get_db_connection()
+
     if conn:
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM Book")
-        books_list = cursor.fetchall()
-        cursor.close()
-        conn.close()
+        print("--- 2. DB Connection SUCCESSFUL ---")
+        cursor = None
+        try:
+
+            TABLE_NAME = "Book"
+
+            cursor = conn.cursor(dictionary=True)
+            cursor.execute(f"SELECT * FROM {TABLE_NAME}")
+            books_list = cursor.fetchall()
+
+
+            if not books_list:
+                print(f"--- 3. Query ran, but found 0 rows in table '{TABLE_NAME}'. ---")
+            else:
+                print(f"--- 3. SUCCESS: Found {len(books_list)} books. Sending to frontend. ---")
+                print(f"--- First record keys: {list(books_list[0].keys())}")
+
+        except Exception as e:
+
+            print(f"--- 4. SQL EXECUTION ERROR: {e} ---")
+            books_list = []
+
+        finally:
+            if cursor:
+                cursor.close()
+            if conn and conn.is_connected():
+                conn.close()
+
+    else:
+        print("--- 2. DB Connection FAILED (Check DB Config/Server Status) ---")  
+
     return jsonify({"books": books_list})
-
-
 @app.route('/api/signup', methods=['POST'])
 def signup():
     data = request.get_json()
@@ -78,32 +105,30 @@ def login():
     email = data.get('Email')
     password = data.get('MemberPass')
 
-    if not all([email, password]):
-        return jsonify({'error': 'Email and password required'}), 400
+    conn = get_db_connection()
+    if not conn:
+        return jsonify({"success": False, "error": "Database connection failed"}), 500
 
     try:
-        conn = get_db_connection()
         cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM LOGIN WHERE Email = %s", (email,))
+        cursor.execute("SELECT * FROM LOGIN WHERE Email=%s", (email,))
         user = cursor.fetchone()
 
-        if not user:
-            return jsonify({'error': 'User not found'}), 404
-
-        if not check_password_hash(user['MemberPass'], password):
-            return jsonify({'error': 'Invalid password'}), 401
-
-        return jsonify({'message': 'Login successful', 'user': {'name': user['MemberName'], 'email': user['Email']}})
+        if user and check_password_hash(user["MemberPass"], password):
+            return jsonify({"success": True})
+        else:
+            return jsonify({"success": False, "error": "Invalid credentials"}), 401
 
     except Exception as e:
-        print("Error:", e)
-        return jsonify({'error': 'Database error'}), 500
+        print("Login error:", e)
+        return jsonify({"success": False, "error": "Database error"}), 500
 
     finally:
         if cursor:
             cursor.close()
         if conn and conn.is_connected():
             conn.close()
+
 
 @app.route('/api/admin/stats', methods=['GET'])
 def admin_stats():
@@ -139,6 +164,7 @@ def admin_stats():
         if conn and conn.is_connected():
             conn.close()
 
+
 # --- Run App ---
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=5001)
