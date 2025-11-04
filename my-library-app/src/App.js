@@ -536,11 +536,16 @@ return (
 );
 }
 
-
 function LoginPage(){
+  const navigate = useNavigate();
   const { theme, setTheme } = useContext(ThemeContext);
   const [isVisible, setIsVisible] = useState(false);
   const [action, setAction] = useState("Login");
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -548,6 +553,47 @@ function LoginPage(){
     }, 300);
     return () => clearTimeout(timer);
   }, []);
+
+  const handleSubmit = async () => {
+    if (action === "Login") {
+      try {
+        const res = await fetch("http://localhost:5001/api/login", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({ Email: email, MemberPass: password })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          setMessage("Login Successful");
+          navigate("/MemberDashboard");
+        } else {
+          setMessage(data.error || "Invalid credentials");
+        }
+      } catch (err) {
+        setMessage("Server error");
+      }
+
+    } else {
+      try {
+        const res = await fetch("http://localhost:5001/api/signup", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({ MemberName: name, Email: email, MemberPass: password })
+        });
+        const data = await res.json();
+
+        if (res.status === 201) {
+          setMessage("Account created! You can now login.");
+          setAction("Login");
+        } else {
+          setMessage(data.error || "Signup failed");
+        }
+      } catch (err) {
+        setMessage("Server error");
+      }
+    }
+  };
 
   return (
     <div className="App">
@@ -582,16 +628,16 @@ function LoginPage(){
         <div className="inputs">
             {action==="Login" ? null : <div className="input">
             <img src={user_icon} width={38} height={23} alt="" />
-            <input type="text" placeholder="Name" />
+            <input type="text" placeholder="Name" value={name} onChange={(e)=>setName(e.target.value)} />
           </div>}
 
           <div className="input">
             <img src={email_icon} width={38} height={23} alt="" />
-            <input type="email" placeholder="Email" />
+            <input type="email" placeholder="Email" value={email} onChange={(e)=>setEmail(e.target.value)} />
           </div>
           <div className="input">
             <img src={password_icon} width={38} height={23} alt="" />
-            <input type="password" placeholder="Password" />
+            <input type="password" placeholder="Password" value={password} onChange={(e)=>setPassword(e.target.value)} />
           </div>
         </div>
         {action==="Sign Up" ? <div></div> : <div className="forgot-password">Lost Password? <span> Click Here! </span> </div> }
@@ -599,9 +645,25 @@ function LoginPage(){
           <div className={action==="Login"?"submit gray":"submit"} onClick={()=>{setAction("Sign Up")}}>Sign Up</div>
           <div className={action==="Sign Up"?"submit gray":"submit"} onClick={()=>{setAction("Login")}}>Login</div>
         </div>
+
+
+        <div className="submit-only-container">
+            <div className="submit" onClick={handleSubmit}>Submit</div>
+        </div>
+
+        {message && <p>{message}</p>}
+
       </div>
       </div>
       </div>
+    </div>
+  );
+}
+
+function MemberDashboard(){
+  return (
+    <div>
+      You are now logged in!
     </div>
   );
 }
@@ -633,6 +695,7 @@ export default function App() {
           <Route path="/richland" element={<LibraryPage name="Richland Park"/>} />
           <Route path="/hermitage" element={<LibraryPage name="Hermitage"/>} />
           <Route path="/thompson" element={<LibraryPage name="Thompson Lane"/>} />
+          <Route path="/MemberDashboard" element={<MemberDashboard />} />
         </Routes>
       </Router>
     </ThemeContext.Provider>
