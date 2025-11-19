@@ -1,0 +1,116 @@
+:root {
+  /* Light Mode */
+  --bg-color: white;
+  --text-color: white;
+  --accent-color: lightsteelblue;
+  --sceondary-accent: rgb(198, 218, 246);
+  --secondary-bg: rgb(163, 163, 163);
+  --hover-color: lightgrey;
+  --left-gradient: grey;
+  --shelf-top: rgb(115, 115, 115);
+  --shelf-bottom: rgb(97, 97, 97);
+  --border-color: rgb(116, 116, 116);
+  --shadow-color: rgba(0, 0, 0, 0.3);
+}
+
+/* Dark Mode */
+[data-theme="dark"] {
+  --bg-color: #2f2f36;
+  --text-color: #f1efe3;
+  --accent-color: #6a7ca3; 
+  --sceondary-accent: #798db8;
+  --secondary-bg: #2a2a33;
+  --hover-color: #34343f;
+  --left-gradient: #1e1e24;
+  --shelf-top: #383b40;
+  --shelf-bottom: #2b2d31;
+   --border-color: #1d1e21;
+  --shadow-color: rgba(0, 0, 0, 0.6);
+}
+
+.manage-users-page {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 30px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px var(--shadow-color);
+  background-color: var(--shelf-top);
+}
+
+.manage-users-page h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: var(--text-color);
+  font-family: 'Georgia', serif;
+}
+
+.manage-users-page table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.manage-users-page th,
+.manage-users-page td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-color);
+  font-family: 'Georgia', serif;
+}
+
+.manage-users-page th {
+  background-color: var(--secondary-bg);
+  font-weight: bold;
+}
+
+.manage-users-page tr:hover {
+  background-color: var(--hover-color);
+}
+
+.manage-users-page button {
+  padding: 8px 12px;
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-family: 'Georgia', serif;
+}
+
+.manage-users-page button:hover {
+  background-color: var(--sceondary-accent);
+}
+
+.manage-users-page .edit-form,
+.manage-users-page .add-form {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: var(--left-gradient);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.manage-users-page label {
+  font-weight: bold;
+  color: var(--text-color);
+  display: block;
+  margin-bottom: 6px;
+}
+
+.manage-users-page input, 
+.manage-users-page select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+}
+
+.manage-users-page input:focus,
+.manage-users-page select:focus {
+  border-color: var(--sceondary-accent);
+  outline: none;
+}

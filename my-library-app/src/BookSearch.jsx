@@ -54,8 +54,11 @@ export default function BookSearchPage() {
               />
               <span className="slider"></span>
             </label>
-            <Link to="/admin">
-              <button>Back</button>
+            <Link to="/SignUp">
+              <button>Sign Up</button>
+            </Link>
+            <Link to="/Login">
+              <button>Log In</button>
             </Link>
           </div>
         </nav>

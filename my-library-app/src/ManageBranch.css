@@ -1,0 +1,115 @@
+:root {
+  /* Light Mode */
+  --bg-color: white;
+  --text-color: white;
+  --accent-color: lightsteelblue;
+  --sceondary-accent: rgb(198, 218, 246);
+  --secondary-bg: rgb(163, 163, 163);
+  --hover-color: lightgrey;
+  --left-gradient: grey;
+  --shelf-top: rgb(115, 115, 115);
+  --shelf-bottom: rgb(97, 97, 97);
+  --border-color: rgb(116, 116, 116);
+  --shadow-color: rgba(0, 0, 0, 0.3);
+}
+
+/* Dark Mode */
+[data-theme="dark"] {
+  --bg-color: #2f2f36;
+  --text-color: #f1efe3;
+  --accent-color: #6a7ca3; 
+  --sceondary-accent: #798db8;
+  --secondary-bg: #2a2a33;
+  --hover-color: #34343f;
+  --left-gradient: #1e1e24;
+  --shelf-top: #383b40;
+  --shelf-bottom: #2b2d31;
+   --border-color: #1d1e21;
+  --shadow-color: rgba(0, 0, 0, 0.6);
+}
+
+.manage-branches-page {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 30px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px var(--shadow-color);
+  background-color: var(--shelf-top);
+}
+
+.manage-branches-page h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: var(--text-color);
+  font-family: 'Georgia', serif;
+}
+
+/* Table layout */
+.manage-branches-page table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.manage-branches-page th,
+.manage-branches-page td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-color);
+  font-family: 'Georgia', serif;
+}
+
+.manage-branches-page th {
+  background-color: var(--secondary-bg);
+  font-weight: bold;
+}
+
+.manage-branches-page tr:hover {
+  background-color: var(--hover-color);
+}
+
+.manage-branches-page button {
+  padding: 8px 12px;
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-family: 'Georgia', serif;
+}
+
+.manage-branches-page button:hover {
+  background-color: var(--sceondary-accent);
+}
+
+.manage-branches-page .edit-form,
+.manage-branches-page .add-form {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: var(--left-gradient);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.manage-branches-page label {
+  font-weight: bold;
+  color: var(--text-color);
+  display: block;
+  margin-bottom: 6px;
+}
+
+.manage-branches-page input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+}
+
+.manage-branches-page input:focus {
+  border-color: var(--sceondary-accent);
+  outline: none;
+}

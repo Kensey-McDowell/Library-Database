@@ -20,6 +20,8 @@ import user_icon from './assets/people.png';
 import password_icon from './assets/passai.png';
 import email_icon from './assets/emailai.png';
 import "./App.css";
+import ManageUsersPage from "./ManageUser.jsx";
+import ManageBranchesPage from "./ManageBranch.jsx";
 
 export const ThemeContext = createContext();
 
@@ -168,14 +170,9 @@ function Home() {
           </div>
 
           <div className={`fade-in fade-delay-4 ${isVisible ? 'visible' : ''}`}>
-                <Link to ="/search">
-                    <button
-                        type = "button"
-                        className = "search-launch-button"
-                        >
-                        Search books
-                    </button>
-                </Link>
+            <Link to="/search" className="search-launch-button">
+              Search books
+            </Link>
           </div>
 
           <div className={`fade-in fade-delay-5 ${isVisible ? 'visible' : ''}`}>
@@ -683,6 +680,8 @@ export default function App() {
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/bookadd" element={<AddBookPage />} />
           <Route path="/search" element={<BookSearchPage />} />
+          <Route path="/manageuser" element={<ManageUsersPage />} />
+          <Route path="/managebranch" element={<ManageBranchesPage />} />
           <Route path="/SignUp" element={<SignUpPage name="Sign-Up"/>} />
           <Route path="/Login" element={<LoginPage name="Login"/>} />
           <Route path="/main" element={<LibraryPage name="Main Library"/>} />

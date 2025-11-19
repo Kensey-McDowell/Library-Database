@@ -89,18 +89,22 @@ export default function AdminDashboard() {
               <h4>Manage Books</h4>
               <p>View, add, or remove books from the catalog.</p>
               <Link to="/bookadd">
-                  <button>Add Book</button>
+                  <button>Open</button>
               </Link>
             </div>
             <div className="action-card">
               <h4>Manage Users</h4>
               <p>View and manage registered patrons.</p>
-              <button onClick={() => alert("Go to user management!")}>Open</button>
+              <Link to="/ManageUser">
+                <button>Open</button>
+              </Link>
             </div>
             <div className="action-card">
               <h4>Manage Branches</h4>
               <p>Update library locations and details.</p>
-              <button onClick={() => alert("Go to branch management!")}>Open</button>
+              <Link to="/ManageBranch">
+                <button>Open</button>
+              </Link>
             </div>
           </div>
         </div>
