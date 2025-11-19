@@ -60,7 +60,7 @@ def get_books_api():
                 conn.close()
 
     else:
-        print("--- 2. DB Connection FAILED (Check DB Config/Server Status) ---")  
+        print("--- 2. DB Connection FAILED (Check DB Config/Server Status) ---")
 
     return jsonify({"books": books_list})
 @app.route('/api/signup', methods=['POST'])
@@ -161,6 +161,42 @@ def admin_stats():
     finally:
         if cursor:
             cursor.close()
+        if conn and conn.is_connected():
+            conn.close()
+
+
+@app.route('/api/branch-info/<branch_name>', methods=['GET'])
+def get_branch_info_api(branch_name):
+    conn = get_db_connection()
+    if not conn:
+        return jsonify({"error": "Database connection failed"}), 500
+
+    try:
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute(
+            "SELECT Name, Address, City, Phone_Number, Email_Address, Num_Member FROM LIBRARY_BRANCH WHERE Name = %s",
+            (branch_name,)
+        )
+        branch_info = cursor.fetchone()
+
+        if branch_info:
+            raw_phone = branch_info.get('Phone_Number')
+
+            if raw_phone and isinstance(raw_phone, (str, int)) and len(str(raw_phone)) == 7:
+                phone_str = str(raw_phone)
+
+                formatted_phone = f"(615) {phone_str[:3]}-{phone_str[3:]}"
+
+                branch_info['Phone_Number'] = formatted_phone
+
+            return jsonify(branch_info), 200
+        else:
+            return jsonify({"error": "Branch not found"}), 404
+    except Exception as e:
+        print(f"Error fetching branch info: {e}")
+        return jsonify({"error": "Database query failed"}), 500
+
+    finally:
         if conn and conn.is_connected():
             conn.close()
 
