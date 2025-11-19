@@ -212,6 +212,9 @@ function LibraryPage({ name }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const [branchInfo, setBranchInfo] = useState(null);
+  const [loadingInfo, setLoadingInfo] = useState(true);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(true);
@@ -221,7 +224,7 @@ function LibraryPage({ name }) {
 
   useEffect(() => {
     const fetchBookData = async () => {
-        const API_URL = 'http://localhost:5000/api/books';
+        const API_URL = 'http://localhost:5001/api/books';
 
         try {
             const response = await fetch(API_URL);
@@ -239,7 +242,7 @@ function LibraryPage({ name }) {
 
         } catch (err) {
             console.error("Connection Error (Check Flask Server/CORS):", err);
-            setError("Failed to fetch data. Ensure Flask server is running on port 5000.");
+            setError("Failed to fetch data. Ensure Flask server is running on port 5001.");
         } finally {
             setLoading(false);
         }
@@ -247,6 +250,28 @@ function LibraryPage({ name }) {
 
     fetchBookData();
   }, [name]);
+
+  useEffect(() => {
+        const fetchBranchInfo = async () => {
+            // Encode the name in case it contains spaces (like "Main Library")
+            const API_URL = `http://localhost:5001/api/branch-info/${encodeURIComponent(name)}`;
+
+            try {
+                const response = await fetch(API_URL);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                const data = await response.json();
+                setBranchInfo(data); // Store the fetched details
+            } catch (err) {
+                console.error(`Error fetching branch info for ${name}:`, err);
+            } finally {
+                setLoadingInfo(false);
+            }
+        };
+
+        fetchBranchInfo();
+    }, [name]);
 
   let imageElement = null;
   if (name === 'Main Library') {
@@ -281,32 +306,49 @@ function LibraryPage({ name }) {
   }
 
   // Content for the Book Catalog section
-  let catalogContent;
-  if (loading) {
-    catalogContent = <div style={{padding: '10px', textAlign: 'center', fontSize: '18px', color: 'white'}}>Loading catalog...</div>;
-  } else if (error) {
-    catalogContent = <div style={{padding: '10px', textAlign: 'center', color: 'white', border: '1px solid white', borderRadius: '5px'}}>{error}</div>;
-  } else {
-    catalogContent = (
-      <div style={{marginTop: '15px'}}>
-        <h3 style={{fontSize: '16px', fontWeight: 'bold', marginBottom: '10px'}}>Available Books ({books.length})</h3>
-        {books.length > 0 ? (
-          <p style={{fontSize: '14px', color: 'white'}}>Successfully fetched {books.length} records. **Connection Verified!**</p>
-        ) : (
-          <p style={{fontSize: '14px', color: 'white'}}>No books found in the current catalog. (Check your MySQL data)</p>
-        )}
-        {/* Simple list of fetched books */}
-        <div style={{ maxHeight: '200px', overflowY: 'auto', marginTop: '10px', border: '1px solid #ccc', padding: '5px' }}>
-            {books.slice(0, 5).map((book, index) => (
-                <div key={index} style={{ fontSize: '12px', borderBottom: '1px dotted #ccc', padding: '3px 0' }}>
-                    **{book.Title}** by {book.Author_Firstname} {book.Author_Lastname} (ISBN: {book.ISBN})
-                </div>
-            ))}
-            {books.length > 5 && <div style={{ fontSize: '12px', color: '#888' }}>... and {books.length - 5} more books.</div>}
-        </div>
-      </div>
-    );
-  }
+ let catalogContent;
+if (loading) {
+  catalogContent = (
+    <div style={{padding: '10px', textAlign: 'center', fontSize: '18px', color: 'white'}}>
+      Loading catalog...
+    </div>
+  );
+} else if (error) {
+  catalogContent = (
+    <div style={{padding: '10px', textAlign: 'center', color: 'white', border: '1px solid white', borderRadius: '5px'}}>
+      {error}
+    </div>
+  );
+} else {
+  catalogContent = (
+    <div style={{marginTop: '15px'}}>
+      <h3 style={{fontSize: '16px', fontWeight: 'bold', marginBottom: '10px'}}>
+        Available Books: {books.length}
+      </h3>
+      {books.length === 0 && (
+        <p style={{fontSize: '14px', color: 'white'}}>
+          No books found in the current catalog.
+        </p>
+      )}
+    </div>
+  );
+}
+
+  let infoContent;
+    if (loadingInfo) {
+        infoContent = <p style={{ fontSize: '14px', color: 'white', marginTop: '10px' }}>Loading branch details...</p>;
+    } else if (branchInfo) {
+        infoContent = (
+            <div style={{ marginTop: '15px', padding: '10px', border: '1px solid #ccc', borderRadius: '5px' }}>
+                <p style={{marginBottom: '5px'}}><strong>Address:</strong> {branchInfo.Address}, {branchInfo.City}</p>
+                <p style={{marginBottom: '5px'}}><strong>Phone:</strong> {branchInfo.Phone_Number}</p>
+                <p style={{marginBottom: '5px'}}><strong>Email:</strong> {branchInfo.Email_Address}</p>
+                <p><strong>Total Members:</strong> {branchInfo.Num_Member}</p>
+            </div>
+        );
+    } else {
+        infoContent = <p style={{ fontSize: '14px', color: 'white', marginTop: '10px' }}>Branch details could not be loaded.</p>;
+    }
 
   return (
     <div className="App">
@@ -345,6 +387,9 @@ function LibraryPage({ name }) {
               <p className={`fade-in fade-delay-4 ${isVisible ? 'visible' : ''}`}>
                 Welcome to the {name} branch!
               </p>
+
+                {infoContent}
+
               <p className={`fade-in fade-delay-5 ${isVisible ? 'visible' : ''}`}>
               {catalogContent}
               </p>
@@ -394,7 +439,7 @@ function SignUpPage() {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/api/signup", {
+      const response = await fetch("http://localhost:5001/api/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
