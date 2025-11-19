@@ -18,14 +18,14 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  const { BranchName, Address } = req.body;
+  const { Name, Address, City, Num_Member, Phone_Number, Email_Address, LIBRARY_BRANCHId} = req.body;
 
   const sql = `
-    INSERT INTO LIBRARY_BRANCH (BranchName, Address)
-    VALUES (?, ?)
+  INSERT INTO LIBRARY_BRANCH (Name, Address, City, Num_Member, Phone_Number, Email_Address, LIBRARY_BRANCHId)
+  VALUES (?, ?, ?, ?, ?, ?, ?)
   `;
 
-  db.query(sql, [BranchName, Address], (err, result) => {
+  db.query(sql, [Name, Address, City, Num_Member, Phone_Number, Email_Address, LIBRARY_BRANCHId], (err, result) => {
     if (err) {
       console.error("Error adding branch:", err);
       return res.status(500).json({ error: "Failed to add branch" });

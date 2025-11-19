@@ -11,13 +11,16 @@ export default function ManageBranchesPage() {
 
   const [branches, setBranches] = useState([]);
   const [formData, setFormData] = useState({
-    Branch_Name: "",
+    LIBRARY_BRANCHId: "",
+    Name: "",
     Address: "",
-    Phone: "",
-    IsActive: true
+    City: "",
+    Phone_Number: "",
+    Email_Address: "",
+    Num_Member: 0
   });
 
-  const [editingBranch, setEditingBranch] = useState(null); // For editing mode
+  const [editingBranch, setEditingBranch] = useState(null); 
 
   useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), 300);
@@ -36,10 +39,10 @@ export default function ManageBranchesPage() {
   }, []);
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value, type } = e.target;
     setFormData({
       ...formData,
-      [name]: type === "checkbox" ? checked : value
+      [name]: type === "number" ? parseInt(value) : value
     });
   };
 
@@ -61,12 +64,11 @@ export default function ManageBranchesPage() {
       if (res.ok) {
         alert("Branch updated.");
         setEditingBranch(null);
-        setFormData({ Branch_Name: "", Address: "", Phone: "", IsActive: true });
+        setFormData({ Name: "", Address: "", City: "", Phone_Number: "", Email_Address: "", Num_Member: "", LIBRARY_BRANCHId: ""});
         loadBranches();
       } else {
         alert("Error updating branch.");
       }
-
     } else {
       // Add new branch
       const res = await fetch("http://localhost:5000/api/branches", {
@@ -77,7 +79,7 @@ export default function ManageBranchesPage() {
 
       if (res.ok) {
         alert("Branch added.");
-        setFormData({ Branch_Name: "", Address: "", Phone: "", IsActive: true });
+        setFormData({ Name: "", Address: "", City: "", Phone_Number: "", Email_Address: "", Num_Member: "", LIBRARY_BRANCHId: "" });
         loadBranches();
       } else {
         alert("Error adding branch.");
@@ -87,26 +89,16 @@ export default function ManageBranchesPage() {
 
   // Load branch into form to edit
   const handleEdit = (branch) => {
-    setEditingBranch(branch.Branch_ID);
+    setEditingBranch(branch.LIBRARY_BRANCHId);
     setFormData({
-      Branch_Name: branch.Branch_Name,
+      Name: branch.Name,
       Address: branch.Address,
-      Phone: branch.Phone,
-      IsActive: branch.IsActive
+      City: branch.City,
+      Phone_Number: branch.Phone_Number,
+      Email_Address: branch.Email_Address,
+      Num_Member: branch.Num_Member,
+      LIBRARY_BRANCHId: branch.LIBRARY_BRANCHId
     });
-  };
-
-  // Activate/deactivate branch
-  const handleToggleActive = async (branch) => {
-    const updated = { ...branch, IsActive: !branch.IsActive };
-
-    await fetch(`http://localhost:5000/api/branches/${branch.Branch_ID}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(updated)
-    });
-
-    loadBranches();
   };
 
   return (
@@ -146,8 +138,8 @@ export default function ManageBranchesPage() {
             <div>
               <label>Branch Name:</label>
               <input
-                name="Branch_Name"
-                value={formData.Branch_Name}
+                name="Name"
+                value={formData.Name}
                 onChange={handleChange}
                 required
               />
@@ -164,21 +156,52 @@ export default function ManageBranchesPage() {
             </div>
 
             <div>
-              <label>Phone:</label>
+              <label>City:</label>
               <input
-                name="Phone"
-                value={formData.Phone}
+                name="City"
+                value={formData.City}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div>
+              <label>Phone Number:</label>
+              <input
+                type="text"
+                name="Phone_Number"
+                value={formData.Phone_Number}
                 onChange={handleChange}
               />
             </div>
 
             <div>
-              <label>Active:</label>
+              <label>Email Address:</label>
               <input
-                type="checkbox"
-                name="IsActive"
-                checked={formData.IsActive}
+                name="Email_Address"
+                value={formData.Email_Address}
                 onChange={handleChange}
+              />
+            </div>
+
+            <div>
+              <label>Number of Members:</label>
+              <input
+                type="number"
+                name="Num_Member"
+                value={formData.Num_Member}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div>
+              <label>Branch ID:</label>
+              <input
+                type="number"
+                name="LIBRARY_BRANCHId"
+                value={formData.LIBRARY_BRANCHId}
+                onChange={handleChange}
+                required
               />
             </div>
 
@@ -191,12 +214,7 @@ export default function ManageBranchesPage() {
                 type="button"
                 onClick={() => {
                   setEditingBranch(null);
-                  setFormData({
-                    Branch_Name: "",
-                    Address: "",
-                    Phone: "",
-                    IsActive: true
-                  });
+                  setFormData({ Name: "", Address: "", City: "", Phone_Number: "", Email_Address: "", Num_Member: "", LIBRARY_BRANCHId: "" });
                 }}
               >
                 Cancel Edit
@@ -209,23 +227,28 @@ export default function ManageBranchesPage() {
           <table>
             <thead>
               <tr>
-                <th>Name</th><th>Address</th><th>Phone</th><th>Status</th><th>Actions</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>City</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Members</th>
+                <th>Actions</th>
               </tr>
             </thead>
 
             <tbody>
               {branches.map((b) => (
-                <tr key={b.Branch_ID}>
-                  <td>{b.Branch_Name}</td>
+                <tr key={b.LIBRARY_BRANCHId}>
+                  <td>{b.Name}</td>
                   <td>{b.Address}</td>
-                  <td>{b.Phone}</td>
-                  <td>{b.IsActive ? "Active" : "Inactive"}</td>
+                  <td>{b.City}</td>
+                  <td>{b.Phone_Number}</td>
+                  <td>{b.Email_Address}</td>
+                  <td>{b.Num_Member}</td>
 
                   <td>
                     <button onClick={() => handleEdit(b)}>Edit</button>
-                    <button onClick={() => handleToggleActive(b)}>
-                      {b.IsActive ? "Deactivate" : "Activate"}
-                    </button>
                   </td>
                 </tr>
               ))}
