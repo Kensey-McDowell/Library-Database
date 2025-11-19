@@ -11,9 +11,9 @@ export default function ManageUsersPage() {
 
   const [users, setUsers] = useState([]);
   const [formData, setFormData] = useState({
-    First_Name: "",
-    Last_Name: "",
-    Email: ""
+    MemberName: "",
+    Email: "",
+    MemberPass: ""
   });
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export default function ManageUsersPage() {
 
     if (res.ok) {
       alert("User added.");
-      setFormData({ First_Name: "", Last_Name: "", Email: ""});
+      setFormData({ MemberName: "", Email: "", MemberPass: ""});
       loadUsers();
     } else {
       alert("Error adding user.");
@@ -101,18 +101,18 @@ export default function ManageUsersPage() {
           <h2>Add New User</h2>
           <form onSubmit={handleAddUser}>
             <div>
-              <label>First Name:</label>
-              <input name="First_Name" value={formData.First_Name} onChange={handleChange} required />
-            </div>
-
-            <div>
-              <label>Last Name:</label>
-              <input name="Last_Name" value={formData.Last_Name} onChange={handleChange} required />
+              <label>Name:</label>
+              <input name="MemberName" value={formData.MemberName} onChange={handleChange} required />
             </div>
 
             <div>
               <label>Email:</label>
               <input name="Email" value={formData.Email} onChange={handleChange} required />
+            </div>
+
+            <div>
+              <label>Member Password:</label>
+              <input name="MemberPass" value={formData.MemberPass} onChange={handleChange} required />
             </div>
 
             <button type="submit">Add User</button>
@@ -125,17 +125,7 @@ export default function ManageUsersPage() {
                 <th>Name</th><th>Email</th><th>Actions</th>
               </tr>
             </thead>
-            <tbody>
-              {users.map((u) => (
-                <tr key={u.User_ID}>
-                  <td>{u.First_Name} {u.Last_Name}</td>
-                  <td>{u.Email}</td>
-                  <td>
-                    <button onClick={() => handleDeleteUser(u.User_ID)}>Delete</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
+            
           </table>
         </div>
       </div>
