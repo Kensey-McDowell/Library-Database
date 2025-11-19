@@ -122,10 +122,19 @@ export default function ManageUsersPage() {
           <table>
             <thead>
               <tr>
-                <th>Name</th><th>Email</th><th>Actions</th>
+                <th>Name</th><th>Email</th>
               </tr>
             </thead>
-            
+
+            <tbody>
+              {users.map((b) => (
+                <tr key={b.MemberName}>
+                  <td>{b.MemberName}</td>
+                  <td>{b.Email}</td>
+                </tr>
+              ))}
+            </tbody>
+
           </table>
         </div>
       </div>
