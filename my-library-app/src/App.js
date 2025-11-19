@@ -533,7 +533,10 @@ return (
 
             {action === "Login" ? (
               <div className="forgot-password">
-                Lost Password? <span>Click Here</span>
+                Lost Password?
+                <Link to="/reset-password" style={{ color: '#B0C4DEFF', fontWeight: 'bold' }}>
+                    Click Here
+                </Link>
               </div>
             ) : null}
 
@@ -682,7 +685,9 @@ function LoginPage(){
             <input type="password" placeholder="Password" value={password} onChange={(e)=>setPassword(e.target.value)} />
           </div>
         </div>
-        {action==="Sign Up" ? <div></div> : <div className="forgot-password">Lost Password? <span> Click Here! </span> </div> }
+        {action==="Sign Up" ? <div></div> : <div className="forgot-password">Lost Password? <Link to="/reset-password" style={{ color: '#B0C4DEFF', fontWeight: 'bold' }}>
+                    Click Here
+                </Link> </div> }
         <div className="submit-container">
           <div className={action==="Login"?"submit gray":"submit"} onClick={()=>{setAction("Sign Up")}}>Sign Up</div>
           <div className={action==="Sign Up"?"submit gray":"submit"} onClick={()=>{setAction("Login")}}>Login</div>
@@ -708,6 +713,98 @@ function MemberDashboard(){
       You are now logged in!
     </div>
   );
+}
+
+export function ResetPasswordPage() {
+    const { theme, setTheme } = useContext(ThemeContext);
+    const [isVisible, setIsVisible] = useState(false);
+    const [email, setEmail] = useState('');
+    const [message, setMessage] = useState('');
+
+    useEffect(() => {
+        const timer = setTimeout(() => setIsVisible(true), 300);
+        return () => clearTimeout(timer);
+    }, []);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setMessage('Processing request...');
+
+        setTimeout(() => {
+            if (email) {
+                console.log(`Sending reset link to: ${email}`);
+                setMessage(`If an account exists for ${email}, a password reset link has been sent.`);
+                setEmail(''); // Clear email field
+            } else {
+                setMessage('Please enter a valid email address.');
+            }
+        }, 1500);
+    };
+
+    return (
+        <div className="App">
+            <div className="SignUp">
+                <div className={`fade-in fade-delay-1 ${isVisible ? "visible" : ""}`}>
+                    <nav className="navbar">
+                        <Link to="/">
+                            <img src={Logo} width={70} height={70} alt="" />
+                        </Link>
+                        <h1 className="main-title">Multi-Branch Library Management System</h1>
+                        <div className="top-right-buttons">
+                            <label className="switch">
+                                <input
+                                    type="checkbox"
+                                    checked={theme === "dark"}
+                                    onChange={() => setTheme(theme === "light" ? "dark" : "light")}
+                                />
+                                <span className="slider"></span>
+                            </label>
+                        </div>
+                    </nav>
+
+                    <div className={`fade-in fade-delay-2 ${isVisible ? "visible" : ""}`}>
+                        <form className="container" onSubmit={handleSubmit}>
+                            <div className="header">
+                                <div className="text">Reset Password</div>
+                                <div className="underline"></div>
+                            </div>
+
+                            <p style={{color: 'white', textAlign: 'center', marginBottom: '20px'}}>
+                                Enter your email address to receive a password reset link.
+                            </p>
+
+                            <div className="inputs">
+                                <div className="input">
+                                    <img src={email_icon} width={38} height={23} alt="" />
+                                    <input
+                                        type="email"
+                                        name="Email"
+                                        placeholder="Email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        required
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="submit-only-container">
+                                <button
+                                    type="submit"
+                                    className="submit"
+                                >
+                                    Send Reset Link
+                                </button>
+                            </div>
+
+                            {message && (
+                                <p style={{ color: 'white', marginTop: '10px', textAlign: 'center' }}>{message}</p>
+                            )}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
 }
 
 export default function App() {
@@ -740,6 +837,7 @@ export default function App() {
           <Route path="/hermitage" element={<LibraryPage name="Hermitage"/>} />
           <Route path="/thompson" element={<LibraryPage name="Thompson Lane"/>} />
           <Route path="/MemberDashboard" element={<MemberDashboard />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
         </Routes>
       </Router>
     </ThemeContext.Provider>
