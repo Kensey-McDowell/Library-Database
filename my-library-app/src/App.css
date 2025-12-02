@@ -494,3 +494,5 @@ input:checked + .slider:before {
   align-items: center;
   z-index: 1000;
 }
+
+

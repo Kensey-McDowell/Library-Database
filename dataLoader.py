@@ -6,7 +6,7 @@ from datetime import datetime, date
 db_config = {
     "host": "localhost",
     "user": "root",
-    "password": "#####",
+    "password": "####",
     "database": "project"
 }
 
@@ -32,7 +32,7 @@ TABLE_CONFIG = [
         "file_path": "flask/BookData.csv",
         "columns": ["ISBN", "Title", "Author_Lastname", "Author_Firstname",
                     "Date_Published", "Publisher", "IsPaperBack", "Page_Count",
-                    "Copies_Owned", "BORROWER", "Library"]
+                    "Copies_Owned", "BORROWER", "Book_Library"]
     },
     {
         "table_name": "WAITLIST",

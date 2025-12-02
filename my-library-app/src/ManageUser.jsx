@@ -13,7 +13,8 @@ export default function ManageUsersPage() {
   const [formData, setFormData] = useState({
     MemberName: "",
     Email: "",
-    MemberPass: ""
+    MemberPass: "",
+    Role_Code: "M",
   });
 
   useEffect(() => {
@@ -21,11 +22,14 @@ export default function ManageUsersPage() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Fetch all users
   const loadUsers = async () => {
-    const res = await fetch("http://localhost:5000/api/users");
-    const data = await res.json();
-    setUsers(data);
+    try {
+      const res = await fetch("http://localhost:5000/api/users");
+      const data = await res.json();
+      setUsers(data);
+    } catch (error) {
+      console.error("Could not fetch users:", error);
+    }
   };
 
   useEffect(() => {
@@ -39,18 +43,24 @@ export default function ManageUsersPage() {
   const handleAddUser = async (e) => {
     e.preventDefault();
 
-    const res = await fetch("http://localhost:5000/api/users", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    });
+    try {
+      const res = await fetch("http://localhost:5000/api/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-    if (res.ok) {
-      alert("User added.");
-      setFormData({ MemberName: "", Email: "", MemberPass: ""});
-      loadUsers();
-    } else {
-      alert("Error adding user.");
+      if (res.ok) {
+        alert("User added.");
+        setFormData({ MemberName: "", Email: "", MemberPass: "", Role_Code: "M" });
+        loadUsers();
+      } else {
+        const errorData = await res.json();
+        alert("Error adding user: " + (errorData.error || "Server failure."));
+      }
+    } catch (error) {
+      console.error("Fetch error:", error);
+      alert("Network error: Could not connect to user API.");
     }
   };
 
@@ -64,12 +74,20 @@ export default function ManageUsersPage() {
     loadUsers();
   };
 
+  const getRoleName = (code) => {
+    switch (code) {
+      case 'A': return 'Admin';
+      case 'E': return 'Employee';
+      case 'M': return 'Member';
+      default: return 'Unknown';
+    }
+  };
+
   return (
     <div className="App" style={{ textAlign: "left" }}>
-      {/* NAVBAR */}
       <div className={`fade-in fade-delay-1 ${isVisible ? "visible" : ""}`}>
         <nav className="navbar">
-          <Link to="/">
+          <Link to="/" style={{ textDecoration: 'none' }}>
             <img src={Logo} width={70} height={70} alt="" />
           </Link>
 
@@ -87,17 +105,15 @@ export default function ManageUsersPage() {
               <span className="slider"></span>
             </label>
 
-            <Link to="/admin">
+            <Link to="/admin" style={{ textDecoration: 'none' }}>
               <button>Back</button>
             </Link>
           </div>
         </nav>
       </div>
 
-      {/* USERS CONTENT */}
       <div className={`fade-in fade-delay-2 ${isVisible ? "visible" : ""}`}>
         <div className="manage-users-page">
-
           <h2>Add New User</h2>
           <form onSubmit={handleAddUser}>
             <div>
@@ -111,8 +127,22 @@ export default function ManageUsersPage() {
             </div>
 
             <div>
-              <label>Member Password:</label>
-              <input name="MemberPass" value={formData.MemberPass} onChange={handleChange} required />
+              <label>Password:</label>
+              <input name="MemberPass" type="password" value={formData.MemberPass} onChange={handleChange} required />
+            </div>
+
+            <div>
+              <label>User Role:</label>
+              <select
+                name="Role_Code"
+                value={formData.Role_Code}
+                onChange={handleChange}
+                required
+              >
+                <option value="M">Member</option>
+                <option value="E">Employee</option>
+                <option value="A">Admin</option>
+              </select>
             </div>
 
             <button type="submit">Add User</button>
@@ -122,19 +152,30 @@ export default function ManageUsersPage() {
           <table>
             <thead>
               <tr>
-                <th>Name</th><th>Email</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Action</th>
               </tr>
             </thead>
 
             <tbody>
-              {users.map((b) => (
-                <tr key={b.MemberName}>
-                  <td>{b.MemberName}</td>
-                  <td>{b.Email}</td>
+              {users.map((user) => (
+                <tr key={user.Email}>
+                  <td>{user.MemberName}</td>
+                  <td>{user.Email}</td>
+                  <td>{getRoleName(user.Role_Code)}</td>
+                  <td>
+                    <button
+                      onClick={() => handleDeleteUser(user.MemberID)}
+                      style={{backgroundColor: 'red', color: 'white', border: 'none', padding: '5px 10px', cursor: 'pointer'}}
+                    >
+                      Delete
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
-
           </table>
         </div>
       </div>

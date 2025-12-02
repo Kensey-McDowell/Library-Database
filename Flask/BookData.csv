@@ -1,61 +1,60 @@
-﻿ISBN,Title,Author_Lastname,Author_Firstname,Date_Published,Publisher,IsPaperBack,Page_Count,Copies_Owned,BORROWER,Library
-10001,1984,Orwell,George,1949-06-08,Penguin,TRUE,328,5,1001,1
-10002,The Great Gatsby,Fitzgerald,F. Scott,1925-04-10,Scribner,TRUE,180,8,NULL,1
-10003,Mockingbird,Lee,Harper,1960-07-11,Lippincott,TRUE,281,6,1003,2
-10004,Fahrenheit 451,Bradbury,Ray,1953-10-19,Ballantine,TRUE,249,4,1005,2
-10005,Catcher in the Rye,Salinger,J.D.,1951-07-16,Little Brown,TRUE,277,7,1007,3
-10006,The Hobbit,Tolkien,J.R.R.,1937-09-21,Allen & Unwin,FALSE,310,10,NULL,3
-10007,Dune,Herbert,Frank,1965-08-01,Chilton Books,TRUE,412,3,1009,4
-10008,The Road,McCarthy,Cormac,2006-09-26,Knopf,TRUE,241,5,1011,4
-10009,Moby Dick,Melville,Herman,1851-10-18,Harper & Bros,FALSE,635,3,1013,5
-10010,The Da Vinci Code,Brown,Dan,2003-03-18,Doubleday,FALSE,454,9,1015,5
-10011,Twilight,Meyer,Stephenie,2005-10-05,Little Brown,TRUE,498,6,NULL,6
-10012,Pride and Prej.,Austen,Jane,1813-01-28,T. Egerton,TRUE,279,12,1017,6
-10013,Hitchhikers Guide,Adams,Douglas,1979-10-12,Harmony,TRUE,216,7,1019,7
-10014,Sapiens,Harari,Yuval Noah,2014-02-10,Harper,FALSE,464,5,1021,7
-10015,The Martian,Weir,Andy,2014-02-11,Crown,TRUE,384,8,1023,8
-10016,Educated,Westover,Tara,2018-02-20,Random House,FALSE,352,6,1025,8
-10017,Gone Girl,Flynn,Gillian,2012-05-24,Crown,TRUE,415,9,1027,9
-10018,The Silent Patient,Michaelides,Alex,2019-02-05,Celadon,FALSE,336,5,1029,9
-10019,Where the Crawdads,Owens,Delia,2018-08-14,G.P. Putnams,TRUE,384,11,1031,10
-10020,The Night Circus,Morgenstern,Erin,2011-09-13,Doubleday,FALSE,387,7,1033,10
-10021,The Alchemist,Coelho,Paulo,1988-01-01,HarperOne,TRUE,197,9,1035,1
-10022,The Girl with,Larsson,Stieg,2008-09-16,Vintage,TRUE,465,5,1037,1
-10023,The Handmaids T,Atwood,Margaret,1985-01-01,Houghton Miffl,TRUE,311,6,1039,2
-10024,The Expanse,Corey,James S.A.,2011-06-02,Orbit,TRUE,592,4,1041,2
-10025,Game of Thrones,Martin,George R.R.,1996-08-06,Bantam,FALSE,694,10,1043,3
-10026,The Shining,King,Stephen,1977-01-28,Doubleday,TRUE,447,7,1045,3
-10027,The Stand,King,Stephen,1978-01-01,Doubleday,FALSE,823,3,1047,4
-10028,IT,King,Stephen,1986-09-15,Viking,TRUE,1138,5,1049,4
-10029,The Secret History,Tartt,Donna,1992-09-01,Knopf,FALSE,559,7,1051,5
-10030,Beloved,Morrison,Toni,1987-09-01,Knopf,TRUE,324,4,1053,5
-10031,The Color Purple,Walker,Alice,1982-01-01,Harcourt,FALSE,291,6,1055,6
-10032,The Joy Luck Club,Tan,Amy,1989-01-01,G.P. Putnams,TRUE,288,8,1057,6
-10033,Wild,Strayed,Cheryl,2012-03-20,Knopf,TRUE,315,5,1059,7
-10034,Into the Wild,Krakauer,Jon,1996-01-01,Anchor,FALSE,207,7,1060,7
-10035,The Odyssey,Homer,NULL,NULL,Penguin,TRUE,448,10,NULL,8
-10036,The Iliad,Homer,NULL,NULL,Penguin,FALSE,683,5,1002,8
-10037,Circe,Miller,Madeline,2018-04-10,Little Brown,TRUE,393,7,1004,9
-10038,Song of Achilles,Miller,Madeline,2011-09-20,Ecco,FALSE,378,6,1006,9
-10039,Where the Sidewalk,Silverstein,Shel,1974-01-01,HarperCollins,TRUE,166,12,1008,10
-10040,The Giving Tree,Silverstein,Shel,1964-01-01,HarperCollins,FALSE,64,15,1010,10
-10041,Green Eggs and Ham,Seuss,Dr.,1960-08-12,Random House,TRUE,65,20,1012,1
-10042,The Cat in the Hat,Seuss,Dr.,1957-03-01,Random House,FALSE,61,18,1014,1
-10043,Harry Potter 1,Rowling,J.K.,1997-06-26,Scholastic,TRUE,320,15,1016,2
-10044,Harry Potter 2,Rowling,J.K.,1998-07-02,Scholastic,FALSE,352,12,1018,2
-10045,The Lightning Thief,Riordan,Rick,2005-06-28,Disney,TRUE,377,9,1020,3
-10046,The Sea of Monster,Riordan,Rick,2006-04-01,Disney,FALSE,279,8,1022,3
-10047,The Hunger Games,Collins,Suzanne,2008-09-14,Scholastic,TRUE,374,11,1024,4
-10048,Catching Fire,Collins,Suzanne,2009-09-01,Scholastic,FALSE,391,10,1026,4
-10049,The Book Thief,Zusak,Markus,2006-03-14,Knopf,TRUE,552,7,1028,5
-10050,The Kite Runner,Hosseini,Khaled,2003-05-29,Riverhead,FALSE,371,6,1030,5
-10051,Little Fires,Ng,Celeste,2017-09-12,Penguin,TRUE,338,8,1032,6
-10052,The Vanishing Half,Brit Bennett,NULL,2020-06-02,Riverhead,FALSE,352,5,1034,6
-10053,Project Hail Mary,Weir,Andy,2021-05-04,Ballantine,TRUE,476,10,1036,7
-10054,The Midnight Lib,Matt Haig,NULL,2020-09-29,Viking,FALSE,304,9,1038,7
-10055,Atomic Habits,Clear,James,2018-10-16,Avery,TRUE,320,15,1040,8
-10056,The Power of Now,Tolle,Eckhart,1997-09-16,New World,FALSE,224,11,1042,8
-10057,Becoming,Obama,Michelle,2018-11-13,Crown,TRUE,426,8,1044,9
-10058,A Promised Land,Obama,Barack,2020-11-17,Crown,FALSE,768,6,1046,9
-10059,1.0001E+299,Korelitz,Jean Hanff,2021-05-11,Celadon,TRUE,320,5,1048,10
-10060,Where'd You Go,Semple,Maria,2012-08-14,Little Brown,FALSE,336,7,1050,10
+﻿10001,1984,Orwell,George,1949-06-08,Penguin,1,328,5,1001,1
+10002,The Great Gatsby,Fitzgerald,F. Scott,1925-04-10,Scribner,1,180,8,NULL,1
+10003,Mockingbird,Lee,Harper,1960-07-11,Lippincott,1,281,6,1003,2
+10004,Fahrenheit 451,Bradbury,Ray,1953-10-19,Ballantine,1,249,4,1005,2
+10005,Catcher in the Rye,Salinger,J.D.,1951-07-16,Little Brown,1,277,7,1007,3
+10006,The Hobbit,Tolkien,J.R.R.,1937-09-21,Allen & Unwin,0,310,10,NULL,3
+10007,Dune,Herbert,Frank,1965-08-01,Chilton Books,1,412,3,1009,4
+10008,The Road,McCarthy,Cormac,2006-09-26,Knopf,1,241,5,1011,4
+10009,Moby Dick,Melville,Herman,1851-10-18,Harper & Bros,0,635,3,1013,5
+10010,The Da Vinci Code,Brown,Dan,2003-03-18,Doubleday,0,454,9,1015,5
+10011,Twilight,Meyer,Stephenie,2005-10-05,Little Brown,1,498,6,NULL,6
+10012,Pride and Prej.,Austen,Jane,1813-01-28,T. Egerton,1,279,12,1017,6
+10013,Hitchhikers Guide,Adams,Douglas,1979-10-12,Harmony,1,216,7,1019,7
+10014,Sapiens,Harari,Yuval Noah,2014-02-10,Harper,0,464,5,1021,7
+10015,The Martian,Weir,Andy,2014-02-11,Crown,1,384,8,1023,8
+10016,Educated,Westover,Tara,2018-02-20,Random House,0,352,6,1025,8
+10017,Gone Girl,Flynn,Gillian,2012-05-24,Crown,1,415,9,1027,9
+10018,The Silent Patient,Michaelides,Alex,2019-02-05,Celadon,0,336,5,1029,9
+10019,Where the Crawdads,Owens,Delia,2018-08-14,G.P. Putnams,1,384,11,1031,10
+10020,The Night Circus,Morgenstern,Erin,2011-09-13,Doubleday,0,387,7,1033,10
+10021,The Alchemist,Coelho,Paulo,1988-01-01,HarperOne,1,197,9,1035,1
+10022,The Girl with,Larsson,Stieg,2008-09-16,Vintage,1,465,5,1037,1
+10023,The Handmaids T,Atwood,Margaret,1985-01-01,Houghton Miffl,1,311,6,1039,2
+10024,The Expanse,Corey,James S.A.,2011-06-02,Orbit,1,592,4,1041,2
+10025,Game of Thrones,Martin,George R.R.,1996-08-06,Bantam,0,694,10,1043,3
+10026,The Shining,King,Stephen,1977-01-28,Doubleday,1,447,7,1045,3
+10027,The Stand,King,Stephen,1978-01-01,Doubleday,0,823,3,1047,4
+10028,IT,King,Stephen,1986-09-15,Viking,1,1138,5,1049,4
+10029,The Secret History,Tartt,Donna,1992-09-01,Knopf,0,559,7,1051,5
+10030,Beloved,Morrison,Toni,1987-09-01,Knopf,1,324,4,1053,5
+10031,The Color Purple,Walker,Alice,1982-01-01,Harcourt,0,291,6,1055,6
+10032,The Joy Luck Club,Tan,Amy,1989-01-01,G.P. Putnams,1,288,8,1057,6
+10033,Wild,Strayed,Cheryl,2012-03-20,Knopf,1,315,5,1059,7
+10034,Into the Wild,Krakauer,Jon,1996-01-01,Anchor,0,207,7,1060,7
+10035,The Odyssey,Homer,N/A,NULL,Penguin,1,448,10,NULL,8
+10036,The Iliad,Homer,N/A,NULL,Penguin,0,683,5,1002,8
+10037,Circe,Miller,Madeline,2018-04-10,Little Brown,1,393,7,1004,9
+10038,Song of Achilles,Miller,Madeline,2011-09-20,Ecco,0,378,6,1006,9
+10039,Where the Sidewalk,Silverstein,Shel,1974-01-01,HarperCollins,1,166,12,1008,10
+10040,The Giving Tree,Silverstein,Shel,1964-01-01,HarperCollins,0,64,15,1010,10
+10041,Green Eggs and Ham,Seuss,Dr.,1960-08-12,Random House,1,65,20,1012,1
+10042,The Cat in the Hat,Seuss,Dr.,1957-03-01,Random House,0,61,18,1014,1
+10043,Harry Potter 1,Rowling,J.K.,1997-06-26,Scholastic,1,320,15,1016,2
+10044,Harry Potter 2,Rowling,J.K.,1998-07-02,Scholastic,0,352,12,1018,2
+10045,The Lightning Thief,Riordan,Rick,2005-06-28,Disney,1,377,9,1020,3
+10046,The Sea of Monster,Riordan,Rick,2006-04-01,Disney,0,279,8,1022,3
+10047,The Hunger Games,Collins,Suzanne,2008-09-14,Scholastic,1,374,11,1024,4
+10048,Catching Fire,Collins,Suzanne,2009-09-01,Scholastic,0,391,10,1026,4
+10049,The Book Thief,Zusak,Markus,2006-03-14,Knopf,1,552,7,1028,5
+10050,The Kite Runner,Hosseini,Khaled,2003-05-29,Riverhead,0,371,6,1030,5
+10051,Little Fires,Ng,Celeste,2017-09-12,Penguin,1,338,8,1032,6
+10052,The Vanishing Half,Brit Bennett,N/A,2020-06-02,Riverhead,0,352,5,1034,6
+10053,Project Hail Mary,Weir,Andy,2021-05-04,Ballantine,1,476,10,1036,7
+10054,The Midnight Lib,Matt Haig,N/A,2020-09-29,Viking,0,304,9,1038,7
+10055,Atomic Habits,Clear,James,2018-10-16,Avery,1,320,15,1040,8
+10056,The Power of Now,Tolle,Eckhart,1997-09-16,New World,0,224,11,1042,8
+10057,Becoming,Obama,Michelle,2018-11-13,Crown,1,426,8,1044,9
+10058,A Promised Land,Obama,Barack,2020-11-17,Crown,0,768,6,1046,9
+10059,1.0001E+299,Korelitz,Jean Hanff,2021-05-11,Celadon,1,320,5,1048,10
+10060,Where'd You Go,Semple,Maria,2012-08-14,Little Brown,0,336,7,1050,10

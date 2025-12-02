@@ -23,7 +23,7 @@ router.post("/", (req, res) => {
     INSERT INTO BOOK (
       ISBN, Title, Author_Lastname, Author_Firstname,
       Date_Published, Publisher, IsPaperBack,
-      Page_Count, Copies_Owned, BORROWER, Libraryt
+      Page_Count, Copies_Owned, BORROWER, Book_Library
     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 

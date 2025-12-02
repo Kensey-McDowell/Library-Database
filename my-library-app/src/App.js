@@ -592,64 +592,127 @@ function LoginPage(){
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
 
+  const ADMIN_EMAIL = "admin";
+  const ADMIN_PASS = "admin";
+
   useEffect(() => {
+    document.body.style.overflow = ""; 
     const timer = setTimeout(() => {
       setIsVisible(true);
     }, 300);
-    return () => clearTimeout(timer);
+
+    return () => {
+      clearTimeout(timer);
+      document.body.style.overflow = "";
+    };
   }, []);
 
   const handleSubmit = async () => {
-    if (action === "Login") {
-      try {
-        const res = await fetch("http://localhost:5001/api/login", {
-          method: "POST",
-          headers: {"Content-Type": "application/json"},
-          body: JSON.stringify({ Email: email, MemberPass: password })
-        });
-        const data = await res.json();
+    setMessage("");
+    console.log("Attempting form submission...");
 
-        if (data.success) {
-          setMessage("Login Successful");
-          navigate("/MemberDashboard");
-        } else {
-          setMessage(data.error || "Invalid credentials");
-        }
-      } catch (err) {
-        setMessage("Server error");
+    if (action !== "Login") {
+      if (!name || !email || !password) {
+        setMessage("All fields are required for sign up.");
+        return;
       }
 
-    } else {
       try {
-        const res = await fetch("http://localhost:5001/api/signup", {
+        console.log("Attempting Member API registration...");
+        const res = await fetch("http://localhost:5001/api/register", {
           method: "POST",
           headers: {"Content-Type": "application/json"},
-          body: JSON.stringify({ MemberName: name, Email: email, MemberPass: password })
+          body: JSON.stringify({ MemberName: name, Email: email, MemberPass: password, Role_Code: 'member' })
         });
+
         const data = await res.json();
 
-        if (res.status === 201) {
-          setMessage("Account created! You can now login.");
+        if (res.ok && data.success) {
+          setMessage("Sign Up Successful! Please log in.");
           setAction("Login");
         } else {
-          setMessage(data.error || "Signup failed");
+          setMessage(data.error || "Sign Up Failed. Email may already be in use.");
+          console.error("API Error Response:", data.error);
         }
       } catch (err) {
-        setMessage("Server error");
+        setMessage("Connection Error: Could not connect to Flask backend for registration.");
+        console.error("Fetch/Server Error during Sign Up:", err);
       }
+      return;
+    }
+
+    if (email === ADMIN_EMAIL && password === ADMIN_PASS) {
+      setMessage("Admin Login Successful! Redirecting...");
+      console.log("Hardcoded admin matched. Redirecting to /admin.");
+      setTimeout(() => {
+        navigate("/admin");
+      }, 500);
+      return;
+    }
+
+
+    try {
+      console.log("Attempting API login for user:", email);
+      
+      const res = await fetch("http://localhost:5001/api/login", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ Email: email, MemberPass: password })
+      });
+
+      if (!res.ok && res.status !== 401 && res.status !== 400) {
+        throw new Error(`HTTP Error! Status: ${res.status}`);
+      }
+
+      const data = await res.json();
+
+      if (data.success) {
+        
+        const userRole = data.Role_Code ? data.Role_Code.toUpperCase() : 'MEMBER';
+
+        setMessage(`Login Successful. Role: ${userRole}. Redirecting...`);
+        
+        let redirectPath = "/MemberDashboard";
+
+        if (userRole === "A") {
+          redirectPath = "/admin";
+          console.log("Database login successful. Role: ADMIN. Redirecting.");
+        } else if (userRole === "M") {
+          redirectPath = "/MemberDashboard";
+          console.log("Database login successful. Role: MEMBER. Redirecting.");
+        } else if (userRole === "M") {
+             redirectPath = "/";
+             setMessage(`Login successful but unknown role: ${userRole}. Contact support.`);
+        }
+
+        setTimeout(() => {
+          navigate(redirectPath);
+        }, 500);
+
+      } else {
+        setMessage(data.error || "Invalid credentials."); 
+        console.error("API Error Response:", data.error);
+      }
+    } catch (err) {
+      setMessage("Connection Error: Could not connect to Flask backend or a serious network issue occurred.");
+      console.error("Fetch/Server Error:", err);
     }
   };
+
+  const containerClasses = 'container';
+  const inputClass = 'input';
+  const submitClass = 'submit'; 
 
   return (
     <div className="App">
       <div className={`fade-in fade-delay-1 ${isVisible ? 'visible' : ''}`}>
-      <nav className="navbar">
-        <Link to="/">
-          <img src={Logo} width={70} height={70} alt=''></img>
-        </Link>
-        <h1 className="main-title">Multi-Branch Library Management System</h1>
-        <div className="top-right-buttons">
-          <label className="switch">
+        <nav className="navbar">
+          <Link to="/">
+            <img src={Logo} width={70} height={70} alt=''></img>
+          </Link>
+          <h1 className="main-title">Multi-Branch Library Management System</h1>
+          <div className="top-right-buttons">
+            <label className="switch">
               <input
                 type="checkbox"
                 checked={theme === "dark"}
@@ -659,58 +722,156 @@ function LoginPage(){
               />
               <span className="slider"></span>
             </label>
-        </div>
-      </nav>
-      <Link to="/admin">
-      <button>Admin</button>
-      </Link>
-      <div className={`fade-in fade-delay-2 ${isVisible ? 'visible' : ''}`}>
-      <div className='container'>
-        <div className="header">
-          <div className="text">{action}</div>
-          <div className="underline"></div>
-        </div>
-        <div className="inputs">
-            {action==="Login" ? null : <div className="input">
-            <img src={user_icon} width={38} height={23} alt="" />
-            <input type="text" placeholder="Name" value={name} onChange={(e)=>setName(e.target.value)} />
-          </div>}
-
-          <div className="input">
-            <img src={email_icon} width={38} height={23} alt="" />
-            <input type="email" placeholder="Email" value={email} onChange={(e)=>setEmail(e.target.value)} />
           </div>
-          <div className="input">
-            <img src={password_icon} width={38} height={23} alt="" />
-            <input type="password" placeholder="Password" value={password} onChange={(e)=>setPassword(e.target.value)} />
+        </nav>
+        <div className={`fade-in fade-delay-2 ${isVisible ? 'visible' : ''}`}>
+          <div className={containerClasses}>
+            <div className="header">
+              <div className="text">{action}</div>
+              <div className="underline"></div>
+            </div>
+            <div className="inputs">
+              {action==="Login" ? null : (
+                <div className={inputClass}>
+                  <img src={user_icon} width={38} height={23} alt="" />
+                  <input type="text" placeholder="Name" value={name} onChange={(e)=>setName(e.target.value)} />
+                </div>
+              )}
+
+              <div className={inputClass}>
+                <img src={email_icon} width={38} height={23} alt="" />
+                <input type="email" placeholder="Email" value={email} onChange={(e)=>setEmail(e.target.value)} />
+              </div>
+              <div className={inputClass}>
+                <img src={password_icon} width={38} height={23} alt="" />
+                <input type="password" placeholder="Password" value={password} onChange={(e)=>setPassword(e.target.value)} />
+              </div>
+            </div>
+            {action==="Sign Up" ? <div></div> : (
+              <div className="forgot-password">
+                Lost Password? 
+                <Link to="/reset-password" style={{ color: '#B0C4DEFF', fontWeight: 'bold' }}>Click Here</Link>
+              </div>
+            )}
+            <div className="submit-container">
+              <div className={action==="Login"?"submit gray":"submit"} onClick={()=>{setAction("Sign Up")}}>Sign Up</div>
+              <div className={action==="Sign Up"?"submit gray":"submit"} onClick={()=>{setAction("Login")}}>Login</div>
+            </div>
+
+            <div className="submit-only-container">
+              <div className={submitClass} onClick={handleSubmit}>Submit</div>
+            </div>
+
+            {message && <p style={{ color: "white", marginTop: "10px", textAlign: "center" }}>{message}</p>}
           </div>
         </div>
-        {action==="Sign Up" ? <div></div> : <div className="forgot-password">Lost Password? <Link to="/reset-password" style={{ color: '#B0C4DEFF', fontWeight: 'bold' }}>
-                    Click Here
-                </Link> </div> }
-        <div className="submit-container">
-          <div className={action==="Login"?"submit gray":"submit"} onClick={()=>{setAction("Sign Up")}}>Sign Up</div>
-          <div className={action==="Sign Up"?"submit gray":"submit"} onClick={()=>{setAction("Login")}}>Login</div>
-        </div>
-
-
-        <div className="submit-only-container">
-            <div className="submit" onClick={handleSubmit}>Submit</div>
-        </div>
-
-        {message && <p>{message}</p>}
-
-      </div>
-      </div>
       </div>
     </div>
   );
 }
 
-function MemberDashboard(){
+function MemberDashboard() {
+  const { theme, setTheme } = useContext(ThemeContext);
+  const [isVisible, setIsVisible] = useState(false);
+  const [memberInfo] = useState({ name: "Jane Doe", email: "jane.doe@library.com", memberId: "M1001" }); 
+
+
+  useEffect(() => {
+    document.body.style.overflow = "";
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 300);
+
+
+    return () => clearTimeout(timer);
+  }, []);
+
+
+  const cardStyle = {
+    backgroundColor: 'var(--background-secondary)',
+    padding: '20px',
+    borderRadius: '8px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px'
+  };
+
+  const buttonStyle = {
+    padding: '8px 15px',
+    margin: '5px 0',
+    backgroundColor: 'var(--primary-color)',
+    color: 'white',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s',
+    width: '100%'
+  };
+
   return (
-    <div>
-      You are now logged in!
+    <div className="App">
+      <div className={`fade-in fade-delay-1 ${isVisible ? 'visible' : ''}`}>
+        <nav className="navbar">
+          <Link to="/">
+            <img src={Logo} width={70} height={70} alt='Library Logo'></img>
+          </Link>
+          
+          <div style={{ flexGrow: 1, textAlign: 'center', marginLeft: '220px' }}>
+            <h1 className="main-title" style={{ margin: 0 }}>Member Dashboard</h1>
+          </div>
+          
+          <div className="top-right-buttons">
+            <label className="switch">
+              <input
+                type="checkbox"
+                checked={theme === "dark"}
+                onChange={() => setTheme(theme === "light" ? "dark" : "light")}
+              />
+              <span className="slider"></span>
+            </label>
+            <Link to="/search">
+              <button>Search Books</button>
+            </Link>
+            <Link to="/Login">
+              <button>Logout</button>
+            </Link>
+          </div>
+        </nav>
+
+        <div className={`fade-in fade-delay-2 ${isVisible ? 'visible' : ''}`}>
+          <div className="dashboard-container" style={{ padding: '20px', maxWidth: '1200px', margin: '30px auto', color: 'var(--text-color)' }}>
+            
+            <h2 style={{ textAlign: 'center', marginBottom: '30px', borderBottom: '2px solid var(--text-color)', paddingBottom: '10px' }}>
+              Welcome Back, {memberInfo.name}! 
+            </h2>
+
+            <div className="info-cards" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px', marginBottom: '40px' }}>
+              <div className="card" style={cardStyle}>
+                <h3> My Profile</h3>
+                <p><strong>Member ID:</strong> {memberInfo.memberId}</p>
+                <p><strong>Email:</strong> {memberInfo.email}</p>
+                <Link to="/profile-settings">
+                  <button style={buttonStyle}>Update Profile</button>
+                </Link>
+              </div>
+
+              <div className="card" style={cardStyle}>
+                <h3> Quick Actions</h3>
+                <Link to="/search">
+                  <button style={buttonStyle}>Browse Catalog</button>
+                </Link>
+                <Link to="/fines">
+                  <button style={buttonStyle}>View Fines/Fees</button>
+                </Link>
+                <Link to="/checkout-history">
+                  <button style={buttonStyle}>Checkout History</button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

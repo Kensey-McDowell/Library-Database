@@ -6,8 +6,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 DB_CONFIG = {
     'user': 'root',
-    'password': 'password',
-    'host': '127.0.0.1',
+    'password': '####',
+    'host': 'localhost',
     'database': 'project'
 }
 
@@ -200,7 +200,5 @@ def get_branch_info_api(branch_name):
         if conn and conn.is_connected():
             conn.close()
 
-
-# --- Run App ---
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
