@@ -6,7 +6,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 DB_CONFIG = {
     'user': 'root',
-    'password': '####',
+    'password': '######',
     'host': 'localhost',
     'database': 'project'
 }

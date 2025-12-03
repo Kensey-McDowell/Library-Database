@@ -770,6 +770,7 @@ function LoginPage(){
   );
 }
 
+
 function MemberDashboard() {
   const { theme, setTheme } = useContext(ThemeContext);
   const [isVisible, setIsVisible] = useState(false);
@@ -830,9 +831,6 @@ function MemberDashboard() {
               />
               <span className="slider"></span>
             </label>
-            <Link to="/search">
-              <button>Search Books</button>
-            </Link>
             <Link to="/Login">
               <button>Logout</button>
             </Link>
@@ -861,10 +859,10 @@ function MemberDashboard() {
                 <Link to="/search">
                   <button style={buttonStyle}>Browse Catalog</button>
                 </Link>
-                <Link to="/fines">
+                <Link to="/MemberFinesPage">
                   <button style={buttonStyle}>View Fines/Fees</button>
                 </Link>
-                <Link to="/checkout-history">
+                <Link to="/CheckoutHistoryPage">
                   <button style={buttonStyle}>Checkout History</button>
                 </Link>
               </div>
@@ -872,6 +870,24 @@ function MemberDashboard() {
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+function MemberFinesPage(){
+  return(
+    <div>
+      <h style={{textAlign: 'center'}}>Under Construction!</h>
+      <h3 style={{textAlign: 'center'}}>We appreciate your patience!</h3>
+    </div>
+  );
+}
+
+function CheckoutHistoryPage(){
+  return(
+    <div>
+      <h style={{textAlign: 'center'}}>Under Construction!</h>
+      <h3 style={{textAlign: 'center'}}>We appreciate your patience!</h3>
     </div>
   );
 }
@@ -999,6 +1015,8 @@ export default function App() {
           <Route path="/thompson" element={<LibraryPage name="Thompson Lane"/>} />
           <Route path="/MemberDashboard" element={<MemberDashboard />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route path="/MemberFinesPage" element={<MemberFinesPage />} />
+          <Route path="/CheckoutHistoryPage" element={<CheckoutHistoryPage />} />
         </Routes>
       </Router>
     </ThemeContext.Provider>
